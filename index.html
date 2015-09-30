@@ -18,8 +18,8 @@
 	var camera, hudcamera;
 	var ball;
 
-	var step = 1;
-	var scenewidth = 400, sceneheight = 400;
+	var step = 0.7;
+	var scenewidth = 200, sceneheight = 200;
 	
 	keyboard = new THREEx.KeyboardState();
 	
@@ -30,7 +30,7 @@
 		camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 3000 );
 		camera.position.x = 0;
 		camera.position.y = 0;
-		camera.position.z = 10;
+		camera.position.z = 5;
 		camera.rotation.x = 0;
 		camera.rotation.y = 0;
 		camera.rotation.z = 0;
@@ -38,10 +38,10 @@
 		camera.lookAt( pos );
 		
 		//hudcamera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 3000 );
-		hudcamera = new THREE.OrthographicCamera( -300, 300, 300, -300, 0.1, 3000 );
+		hudcamera = new THREE.OrthographicCamera( -100, 100, 100, -100, 0.1, 3000, 3 );
 		hudcamera.position.x = 0;
 		hudcamera.position.y = 0;
-		hudcamera.position.z = 500;
+		hudcamera.position.z = 300;
 		hudcamera.lookAt( scene.position );
 		
 		renderer = new THREE.WebGLRenderer();
@@ -54,7 +54,7 @@
 		renderer2.setSize( 150, 150 );
 		renderer2.shadowMapEnabled = false;
 		
-		addTerrain();
+		addFloorCieling();
 		addWalls();
 
 		// add spotlight for the shadows
@@ -65,8 +65,8 @@
         spotLight.castShadow = true;
         scene.add(spotLight);
 		
-		var ballgeo = new THREE.SphereGeometry( 20 );
-		var ballmat = new THREE.MeshBasicMaterial({color:'green'});
+		var ballgeo = new THREE.SphereGeometry( 4 );
+		var ballmat = new THREE.MeshBasicMaterial({color:'white'});
 		ball = new THREE.Mesh( ballgeo, ballmat );
 		scene.add( ball );
 		
@@ -84,20 +84,30 @@
 		render();
 	}
 
-		function addTerrain()
+		function addFloorCieling()
 	{
-		var texture = THREE.ImageUtils.loadTexture('assets/textures/wooden-floor-dark-texture.jpg');
-		var planegeo = new THREE.BoxGeometry( scenewidth, sceneheight, 4 );
-		var planemat = new THREE.MeshBasicMaterial({map:texture});
-		var mesh = new THREE.Mesh( planegeo, planemat );
-		scene.add( mesh );
+		var floorTexture = THREE.ImageUtils.loadTexture('assets/textures/wood-floorboards-texture.jpg');
+		floorTexture.wrapS = THREE.RepeatWrapping;
+		floorTexture.wrapT = THREE.RepeatWrapping;
+		floorTexture.repeat.set( 10, 10 );
+		var floorGeometry = new THREE.BoxGeometry( scenewidth, sceneheight, 1 );
+		var floorMaterial = new THREE.MeshBasicMaterial({map:floorTexture});
+		var floor = new THREE.Mesh( floorGeometry, floorMaterial );
+		scene.add( floor );
+
+		var ceilingGeometry = new THREE.PlaneGeometry( scenewidth, sceneheight, 1 );
+		var ceilingMaterial = new THREE.MeshBasicMaterial( {color:'white', side: THREE.BackSide} );
+		var ceiling = new THREE.Mesh( ceilingGeometry, ceilingMaterial );
+		ceiling.position.z = 15;
+		scene.add( ceiling );
 	}
 	
-	function addAWall( x, y, z, xp, yp, texture )
+	function addAWall( x, y, z, xp, yp, zp, texture )
 	{
 		var wallg = new THREE.BoxGeometry( x, y, z );
 		var wallm = new THREE.MeshBasicMaterial({map:texture});
 		var wallmesh = new THREE.Mesh( wallg, wallm );
+		wallmesh.position.z = zp;
 		wallmesh.position.y = yp;
 		wallmesh.position.x = xp;
 		scene.add( wallmesh );
@@ -105,12 +115,20 @@
 	
 	function addWalls()
 	{
-		var texture = THREE.ImageUtils.loadTexture('assets/textures/brick-1.jpg');
+		var texturex = THREE.ImageUtils.loadTexture('assets/textures/brick-1.jpg');
+		texturex.wrapS = THREE.RepeatWrapping;
+		texturex.wrapT = THREE.RepeatWrapping;
+		texturex.repeat.set( 6, 1 );
+
+		var texturey = THREE.ImageUtils.loadTexture('assets/textures/brick-1.jpg');
+		texturey.wrapS = THREE.RepeatWrapping;
+		texturey.wrapT = THREE.RepeatWrapping;
+		texturey.repeat.set( 1, 6 );
 		
-		addAWall( scenewidth + 100, 50, 40, 0, ( sceneheight / 2 + 26 ), texture );
-		addAWall( scenewidth + 100, 50, 40, 0, -( sceneheight / 2 + 26 ), texture );
-		addAWall( 50, sceneheight, 40, -( scenewidth / 2 + 26 ), 0, texture );
-		addAWall( 50, sceneheight, 40, ( scenewidth / 2 + 26 ), 0, texture );
+		addAWall( scenewidth, 5, 15, 0, (sceneheight / 2), 7.5, texturex );
+		addAWall( scenewidth, 5, 15, 0, -(sceneheight / 2), 7.5, texturex );
+		addAWall( 5, sceneheight, 15, -(scenewidth / 2), 0, 7.5, texturey );
+		addAWall( 5, sceneheight, 15, (scenewidth / 2), 0, 7.5, texturey );
 	}
 
 	function moveCamera( xd, yd )
