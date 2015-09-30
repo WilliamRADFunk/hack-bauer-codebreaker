@@ -7,9 +7,9 @@
 
 <body>
 
-<div id="main" width="97%" height="97%" style="position:relative;">
+<div id="main" width="94%" height="94%" style="position:relative;">
 	<div id="mainview" width="100%" height="100%" style="position:absolute"></div>
-	<div id="hudview" width="10%" height="10%" style="position:absolute; left:20px; bottom:20px; z-index:1000" ></div>
+	<div id="hudview" width="5%" height="5%" style="position:absolute; left:20px; bottom:20px; z-index:1000" ></div>
 </div>
 
 <script>
@@ -37,10 +37,11 @@
 		var pos = new THREE.Vector3( 0, 200, 0 );
 		camera.lookAt( pos );
 		
-		hudcamera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+		//hudcamera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 3000 );
+		hudcamera = new THREE.OrthographicCamera( -300, 300, 300, -300, 0.1, 3000 );
 		hudcamera.position.x = 0;
 		hudcamera.position.y = 0;
-		hudcamera.position.z = 300;
+		hudcamera.position.z = 500;
 		hudcamera.lookAt( scene.position );
 		
 		renderer = new THREE.WebGLRenderer();
@@ -50,8 +51,8 @@
 
 		renderer2 = new THREE.WebGLRenderer();
 		renderer2.setClearColor( 0x000000, 0 );
-		renderer2.setSize( 200, 200 );
-		renderer2.shadowMapEnabled = true;
+		renderer2.setSize( 150, 150 );
+		renderer2.shadowMapEnabled = false;
 		
 		addTerrain();
 		addWalls();
@@ -225,7 +226,7 @@
 		var aspect = 1;//window.innerWidth / window.innerHeight;
 		renderer2.enableScissorTest(true);
 		var horz_ratio = window.innerWidth/window.innerHeight;
-		renderer2.setViewport( 0, 0, 150 * aspect, 100* aspect);
+		renderer2.setViewport( 0, 0, 150 * aspect, 150* aspect);
 		//renderer2.setScissor( 0, 0, 200 * aspect/horz_ratio, 200* aspect*horz_ratio  );
 		renderer2.render( scene, hudcamera );
 	}
