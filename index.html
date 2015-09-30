@@ -1,15 +1,21 @@
 <html>
 
 <head>
+	<!-- Resets all default browser stylings for a clean slate -->
+    <link rel="stylesheet" href="css/reset_author_richard_clark.css">
+    <!-- Styles specific to the Encryptor pages -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- WebGL wrapper library -->
 	<script src="js/three.js"></script>
+	<!-- Allows for keyboard listeners -->
 	<script src="js/threex.keyboardstate.js"></script>
 </head>
 
 <body>
 
-<div id="main" width="94%" height="94%" style="position:relative;">
-	<div id="mainview" width="100%" height="100%" style="position:absolute"></div>
-	<div id="hudview" width="5%" height="5%" style="position:absolute; left:20px; bottom:20px; z-index:1000" ></div>
+<div id="container">
+	<div id="mainview"></div>
+	<div id="hudview"></div>
 </div>
 
 <script>

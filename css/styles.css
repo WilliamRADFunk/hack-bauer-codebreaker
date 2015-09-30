@@ -1,0 +1,145 @@
+body
+{
+	font-family: Arial;
+	margin: auto auto;
+	width: 97%;
+}
+h4
+{
+	display: block;
+	font-size: 15px;
+}
+#container
+{
+	margin: auto auto;
+	position: relative;
+	width: 97%;
+}
+#hudview
+{
+	bottom:15%;
+	height: 10%;
+	left:20px;
+	position: absolute;
+	width: 10%;
+	z-index:1000;
+}
+#mainview
+{
+	height: 100%;
+	left: 0px;
+	position: absolute;
+	top: 0px;
+}
+#explosiveAmount,
+#shrapnelAmount,
+#slugAmount
+{
+	padding-top: 90%;
+}
+#HUD-left,
+#HUD-right,
+#HUD-timer,
+#HUD-legend
+{
+	background-color: #000000;
+	color: #FFFFFF;
+	height: 100px;
+	opacity: 0.7;
+	position: absolute;
+	text-align: center;
+	width: 15%;
+	z-index: 1000;
+}
+#HUD-left
+{
+	left: 3%;
+	top: 3%;
+}
+#HUD-right
+{
+	right: 3%;
+	top: 3%;
+}
+#HUD-timer
+{
+	bottom: 3%;
+	left: 45%;
+}
+#HUD-legend
+{
+	bottom: 3%;
+	height: auto;
+	left: 3%;
+	width: 10%;
+}
+#legend-container,
+#timer-container
+{
+	height: 95%;
+	padding-top: 5%;
+}
+#legend-container h4
+{
+	margin-bottom: 10%;
+}
+#legend-container p
+{
+	display: block;
+	font-size: 12px;
+	margin-bottom: 5%;
+	padding-left: 10%;
+	text-align: left;
+}
+#explosive,
+#shrapnel,
+#slug
+{
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 50% 30%;
+	display: block;
+}
+#explosive
+{
+	background-image: url("../assets/images/cannonball-02.png");
+}
+#shrapnel
+{
+	background-image: url("../assets/images/cannonball-03.png");
+}
+#slug
+{
+	background-image: url("../assets/images/cannonball-01.png");
+}
+.ammo
+{
+	display: block;
+	float: left;
+	font-size: 20px;
+	height: 98%;
+	text-align: center;
+	width: 32%;
+}
+.score
+{
+	display: block;
+	float: left;
+	font-size: 20px;
+	padding-top: 5%;
+	text-align: center;
+	width: 48%;
+}
+.score p
+{
+	margin-top: 20px;
+}
+.time
+{
+	display: block;
+	float: left;
+	font-size: 25px;
+	padding-top: 10%;
+	text-align: center;
+	width: 48%;
+}
