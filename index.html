@@ -37,10 +37,10 @@
 		var pos = new THREE.Vector3( 0, 200, 0 );
 		camera.lookAt( pos );
 		
-		hudcamera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 3000 );
+		hudcamera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 		hudcamera.position.x = 0;
 		hudcamera.position.y = 0;
-		hudcamera.position.z = 500;
+		hudcamera.position.z = 300;
 		hudcamera.lookAt( scene.position );
 		
 		renderer = new THREE.WebGLRenderer();
@@ -180,13 +180,33 @@
 			ball.position.y = camera.position.y;
 			ball.position.z = camera.position.z;
 		}
+		else if( keyboard.pressed("right") && keyboard.pressed("forward") )
+		{
+			camera.rotation.y -= 0.02;
+			moveCamera( -1, 1 );
+		}
+		else if( keyboard.pressed("left") && keyboard.pressed("forward") )
+		{
+			camera.rotation.y += 0.02;
+			moveCamera( -1, 1 );
+		}
+		else if( keyboard.pressed("left") && keyboard.pressed("backward") )
+		{
+			camera.rotation.y -= 0.02;
+			moveCamera( 1, -1 );
+		}
+		else if( keyboard.pressed("right") && keyboard.pressed("backward") )
+		{
+			camera.rotation.y += 0.02;
+			moveCamera( 1, -1 );
+		}
 		else if( keyboard.pressed("right") )
 		{
-			camera.rotation.y -= 0.01;
+			camera.rotation.y -= 0.02;
 		}
 		else if( keyboard.pressed("left") )
 		{
-			camera.rotation.y += 0.01;
+			camera.rotation.y += 0.02;
 		}
 		else if( keyboard.pressed("forward") )
 		{
@@ -205,7 +225,7 @@
 		var aspect = 1;//window.innerWidth / window.innerHeight;
 		renderer2.enableScissorTest(true);
 		var horz_ratio = window.innerWidth/window.innerHeight;
-		renderer2.setViewport( 0, 0, 200 * aspect, 200* aspect);
+		renderer2.setViewport( 0, 0, 150 * aspect, 100* aspect);
 		//renderer2.setScissor( 0, 0, 200 * aspect/horz_ratio, 200* aspect*horz_ratio  );
 		renderer2.render( scene, hudcamera );
 	}
