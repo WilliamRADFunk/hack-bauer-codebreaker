@@ -44,11 +44,11 @@ h4
 {
 	background-color: #000000;
 	color: #FFFFFF;
-	height: 100px;
+	height: 80px;
 	opacity: 0.7;
 	position: absolute;
 	text-align: center;
-	width: 15%;
+	width: 10%;
 	z-index: 1000;
 }
 #HUD-left
@@ -56,21 +56,21 @@ h4
 	left: 3%;
 	top: 3%;
 }
-#HUD-right
+#HUD-mission-details
 {
 	right: 3%;
-	top: 3%;
+	bottom: 3%;
 }
 #HUD-timer
 {
-	bottom: 3%;
+	top: 3%;
 	left: 45%;
 }
 #HUD-legend
 {
 	bottom: 3%;
 	height: auto;
-	left: 3%;
+	right: 3%;
 	width: 10%;
 }
 #legend-container,
@@ -111,28 +111,6 @@ h4
 #slug
 {
 	background-image: url("../assets/images/cannonball-01.png");
-}
-.ammo
-{
-	display: block;
-	float: left;
-	font-size: 20px;
-	height: 98%;
-	text-align: center;
-	width: 32%;
-}
-.score
-{
-	display: block;
-	float: left;
-	font-size: 20px;
-	padding-top: 5%;
-	text-align: center;
-	width: 48%;
-}
-.score p
-{
-	margin-top: 20px;
 }
 .time
 {
