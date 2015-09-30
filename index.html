@@ -95,8 +95,12 @@
 		var floor = new THREE.Mesh( floorGeometry, floorMaterial );
 		scene.add( floor );
 
+		var ceilingTexture = THREE.ImageUtils.loadTexture('assets/textures/tile-ceiling.jpg');
+		ceilingTexture.wrapS = THREE.RepeatWrapping;
+		ceilingTexture.wrapT = THREE.RepeatWrapping;
+		ceilingTexture.repeat.set( 30, 30 );
 		var ceilingGeometry = new THREE.PlaneGeometry( scenewidth, sceneheight, 1 );
-		var ceilingMaterial = new THREE.MeshBasicMaterial( {color:'white', side: THREE.BackSide} );
+		var ceilingMaterial = new THREE.MeshBasicMaterial( {map:ceilingTexture, side: THREE.BackSide} );
 		var ceiling = new THREE.Mesh( ceilingGeometry, ceilingMaterial );
 		ceiling.position.z = 15;
 		scene.add( ceiling );
