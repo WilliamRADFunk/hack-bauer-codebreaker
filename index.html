@@ -6,9 +6,9 @@
     <!-- Styles specific to the Encryptor pages -->
     <link rel="stylesheet" href="css/styles.css">
     <!-- WebGL wrapper library -->
-	<script src="js/three.js"></script>
+	<script src="js/external/three.js"></script>
 	<!-- Allows for keyboard listeners -->
-	<script src="js/threex.keyboardstate.js"></script>
+	<script src="js/external/threex.keyboardstate.js"></script>
 </head>
 
 <body>
@@ -40,12 +40,37 @@
 	var renderer, renderer2;
 	var scene;
 	var camera, hudcamera;
-	var ball;
+	var player;
 	var updateCounter = 0;
 	var timer = 36000;
 
-	var step = 0.7;
-	var scenewidth = 200, sceneheight = 200;
+	var map1 = [// 01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19
+			   [1, 1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1], // 00
+			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 01
+			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 02
+			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 03
+			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 04
+			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 05
+			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 06
+			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 07
+			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 08
+			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 09
+			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 10
+			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 11
+			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 12
+			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 13
+			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 14
+			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 15
+			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 16
+			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 17
+			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 18
+			   [1, 1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1], // 19
+			   ], map1Width = map1.length, map1Height = map1[0].length;
+
+	var WALLHEIGHT = 15;
+	var STRIDE = 0.7;
+	var SCENEWIDTH = 200, SCENEHEIGHT = 200;
+	var UNITSIZE = 10;
 	
 	keyboard = new THREEx.KeyboardState();
 	
@@ -91,10 +116,10 @@
         spotLight.castShadow = true;
         scene.add(spotLight);
 		
-		var ballgeo = new THREE.SphereGeometry( 4 );
-		var ballmat = new THREE.MeshBasicMaterial({color:'white'});
-		ball = new THREE.Mesh( ballgeo, ballmat );
-		scene.add( ball );
+		var playerGeometry = new THREE.SphereGeometry( 4 );
+		var playerMaterial = new THREE.MeshBasicMaterial({color:'white'});
+		player = new THREE.Mesh( playerGeometry, playerMaterial );
+		scene.add( player );
 		
 		renderer.autoClear = false;
 		renderer2.autoClear = false;
@@ -116,7 +141,7 @@
 		floorTexture.wrapS = THREE.RepeatWrapping;
 		floorTexture.wrapT = THREE.RepeatWrapping;
 		floorTexture.repeat.set( 10, 10 );
-		var floorGeometry = new THREE.BoxGeometry( scenewidth, sceneheight, 1 );
+		var floorGeometry = new THREE.BoxGeometry( SCENEWIDTH, SCENEHEIGHT, 1 );
 		var floorMaterial = new THREE.MeshBasicMaterial({map:floorTexture});
 		var floor = new THREE.Mesh( floorGeometry, floorMaterial );
 		scene.add( floor );
@@ -125,10 +150,10 @@
 		ceilingTexture.wrapS = THREE.RepeatWrapping;
 		ceilingTexture.wrapT = THREE.RepeatWrapping;
 		ceilingTexture.repeat.set( 30, 30 );
-		var ceilingGeometry = new THREE.PlaneGeometry( scenewidth, sceneheight, 1 );
+		var ceilingGeometry = new THREE.PlaneGeometry( SCENEWIDTH, SCENEHEIGHT, 1 );
 		var ceilingMaterial = new THREE.MeshBasicMaterial( {map:ceilingTexture, side: THREE.BackSide} );
 		var ceiling = new THREE.Mesh( ceilingGeometry, ceilingMaterial );
-		ceiling.position.z = 15;
+		ceiling.position.z = WALLHEIGHT;
 		scene.add( ceiling );
 	}
 	
@@ -145,55 +170,60 @@
 	
 	function addWalls()
 	{
-		var texturex = THREE.ImageUtils.loadTexture('assets/textures/brick-1.jpg');
-		texturex.wrapS = THREE.RepeatWrapping;
-		texturex.wrapT = THREE.RepeatWrapping;
-		texturex.repeat.set( 6, 1 );
+		var texture1 = THREE.ImageUtils.loadTexture('assets/textures/brick-1.jpg');
+		texture1.wrapS = THREE.RepeatWrapping;
+		texture1.wrapT = THREE.RepeatWrapping;
+		texture1.repeat.set( 2, 1 );
 
-		var texturey = THREE.ImageUtils.loadTexture('assets/textures/brick-1.jpg');
-		texturey.wrapS = THREE.RepeatWrapping;
-		texturey.wrapT = THREE.RepeatWrapping;
-		texturey.repeat.set( 1, 6 );
-		
-		addAWall( scenewidth, 5, 15, 0, (sceneheight / 2), 7.5, texturex );
-		addAWall( scenewidth, 5, 15, 0, -(sceneheight / 2), 7.5, texturex );
-		addAWall( 5, sceneheight, 15, -(scenewidth / 2), 0, 7.5, texturey );
-		addAWall( 5, sceneheight, 15, (scenewidth / 2), 0, 7.5, texturey );
+		var texture2 = THREE.ImageUtils.loadTexture('assets/textures/brick-1.jpg');
+		texture2.wrapS = THREE.RepeatWrapping;
+		texture2.wrapT = THREE.RepeatWrapping;
+		texture2.repeat.set( 1, 2 );
+
+		var tileTexture = THREE.ImageUtils.loadTexture('assets/textures/tile-pentagon.jpg');
+		tileTexture.wrapS = THREE.RepeatWrapping;
+		tileTexture.wrapT = THREE.RepeatWrapping;
+		tileTexture.repeat.set( 15, 1 );
+
+
+		for(var i = 0; i < map1Width; i++)
+		{
+			for(var j = 0; j < map1Height; j++)
+			{
+				if(map1[i][j] == 0)
+				{
+					continue;
+				}
+				else if(map1[i][j] == 1)
+				{
+					addAWall( UNITSIZE, UNITSIZE, WALLHEIGHT, (i * UNITSIZE) - 100, (j * UNITSIZE) - 100, WALLHEIGHT / 2, texture1 );
+				}
+				else if(map1[i][j] == 2)
+				{
+					addAWall( UNITSIZE, UNITSIZE, WALLHEIGHT, (i * UNITSIZE) - 100, (j * UNITSIZE) - 100, WALLHEIGHT / 2, texture2 );
+				}
+			}
+		}
+		//addAWall( SCENEWIDTH, 5, WALLHEIGHT, 0, (SCENEHEIGHT / 2), WALLHEIGHT / 2, texturex );
+		//addAWall( SCENEWIDTH, 5, WALLHEIGHT, 0, -(SCENEHEIGHT / 2), WALLHEIGHT / 2, texturex );
+		//addAWall( 5, SCENEHEIGHT, WALLHEIGHT, -(SCENEWIDTH / 2), 0, WALLHEIGHT / 2, texturey );
+		//addAWall( 5, SCENEHEIGHT, WALLHEIGHT, (SCENEWIDTH / 2), 0, WALLHEIGHT / 2, texturey );
+
+		//addAWall(50, 5, WALLHEIGHT, -75, -60, 7.5, tileTexture);
 	}
 
 	function moveCamera( xd, yd )
 	{
-		var x = camera.position.x + step * Math.sin( camera.rotation.y ) * xd;
-		var y = camera.position.y + step * Math.cos( camera.rotation.y ) * yd;
-			
-		if( x < -( scenewidth / 2 ) )
-		{
-			x = -( scenewidth / 2 ) + 5;
-			two.play();
-		}
-		else if( x > ( scenewidth / 2 ) )
-		{
-			x = ( scenewidth / 2 ) - 5;
-			two.play();
-		}
+		var x = camera.position.x + STRIDE * Math.sin( camera.rotation.y ) * xd;
+		var y = camera.position.y + STRIDE * Math.cos( camera.rotation.y ) * yd;
 		
-		if( y < -( sceneheight / 2 ) )
-		{
-			y = -( sceneheight / 2 ) + 5;
-			two.play();
-		}
-		else if( y > ( sceneheight / 2 ) )
-		{
-			y = ( sceneheight / 2 ) - 5;
-			two.play();
-		}
 			
 		camera.position.x = x;
 		camera.position.y = y;
 		
-		ball.position.x = camera.position.x;
-		ball.position.y = camera.position.y;
-		ball.position.z = camera.position.z;
+		player.position.x = camera.position.x;
+		player.position.y = camera.position.y;
+		player.position.z = camera.position.z;
 	}
 	
 	function render()
@@ -210,118 +240,23 @@
 			document.getElementById( 'seconds' ).innerHTML = seconds;
 		}
 
-		if( keyboard.pressed("reset") )
+		if( keyboard.pressed("right") && keyboard.pressed("forward") )
 		{
-			landed = false;
-			camera.position.x = 0;
-			camera.position.y = 0;
-			camera.position.z = 1000;
-			camera.rotation.x = 0;
-			camera.rotation.y = 0;
-			camera.rotation.z = 0;
-			camera.lookAt( scene.position );
-			
-			ball.position.x = camera.position.x;
-			ball.position.y = camera.position.y;
-			ball.position.z = camera.position.z;
-		}
-		else if( keyboard.pressed("land") )
-		{
-			landed = true;
-			camera.position.x = 0;
-			camera.position.y = 0;
-			camera.position.z = 10;
-			camera.rotation.x = 0;
-			camera.rotation.y = 0;
-			camera.rotation.z = 0;
-			var pos = new THREE.Vector3( 0, 200, 0 );
-			camera.lookAt( pos );
-			
-			ball.position.x = camera.position.x;
-			ball.position.y = camera.position.y;
-			ball.position.z = camera.position.z;
-		}
-		else if( keyboard.pressed("right") && keyboard.pressed("forward") )
-		{
-			if(camera.position.x > 74.5)
-			{
-				camera.position.x = 74.5;
-			}
-			else if(camera.position.x < -74.5)
-			{
-				camera.position.x = -74.5;
-			}
-			else if(camera.position.y < -74.5)
-			{
-				camera.position.y = -74.5;
-			}
-			else if(camera.position.y > 74.5)
-			{
-				camera.position.y = 74.5;
-			}
 			camera.rotation.y -= 0.02;
 			moveCamera( -1, 1 );
 		}
 		else if( keyboard.pressed("left") && keyboard.pressed("forward") )
 		{
-			if(camera.position.x > 74.5)
-			{
-				camera.position.x = 74.5;
-			}
-			else if(camera.position.x < -74.5)
-			{
-				camera.position.x = -74.5;
-			}
-			else if(camera.position.y < -74.5)
-			{
-				camera.position.y = -74.5;
-			}
-			else if(camera.position.y > 74.5)
-			{
-				camera.position.y = 74.5;
-			}
 			camera.rotation.y += 0.02;
 			moveCamera( -1, 1 );
 		}
-		else if( keyboard.pressed("left") && keyboard.pressed("backward") )
+		else if( keyboard.pressed("right") && keyboard.pressed("backward") )
 		{
-			if(camera.position.x > 74.5)
-			{
-				camera.position.x = 74.5;
-			}
-			else if(camera.position.x < -74.5)
-			{
-				camera.position.x = -74.5;
-			}
-			else if(camera.position.y < -74.5)
-			{
-				camera.position.y = -74.5;
-			}
-			else if(camera.position.y > 74.5)
-			{
-				camera.position.y = 74.5;
-			}
 			camera.rotation.y -= 0.02;
 			moveCamera( 1, -1 );
 		}
-		else if( keyboard.pressed("right") && keyboard.pressed("backward") )
+		else if( keyboard.pressed("left") && keyboard.pressed("backward") )
 		{
-			if(camera.position.x > 74.5)
-			{
-				camera.position.x = 74.5;
-			}
-			else if(camera.position.x < -74.5)
-			{
-				camera.position.x = -74.5;
-			}
-			else if(camera.position.y < -74.5)
-			{
-				camera.position.y = -74.5;
-			}
-			else if(camera.position.y > 74.5)
-			{
-				camera.position.y = 74.5;
-			}
 			camera.rotation.y += 0.02;
 			moveCamera( 1, -1 );
 		}
@@ -335,42 +270,10 @@
 		}
 		else if( keyboard.pressed("forward") )
 		{
-			if(camera.position.x > 74.5)
-			{
-				camera.position.x = 74.5;
-			}
-			else if(camera.position.x < -74.5)
-			{
-				camera.position.x = -74.5;
-			}
-			else if(camera.position.y < -74.5)
-			{
-				camera.position.y = -74.5;
-			}
-			else if(camera.position.y > 74.5)
-			{
-				camera.position.y = 74.5;
-			}
 			moveCamera( -1, 1 );
 		}
 		else if( keyboard.pressed("backward") )
 		{
-			if(camera.position.x > 74.5)
-			{
-				camera.position.x = 74.5;
-			}
-			else if(camera.position.x < -74.5)
-			{
-				camera.position.x = -74.5;
-			}
-			else if(camera.position.y < -74.5)
-			{
-				camera.position.y = -74.5;
-			}
-			else if(camera.position.y > 74.5)
-			{
-				camera.position.y = 74.5;
-			}
 			moveCamera( 1, -1 );
 		}
 	
