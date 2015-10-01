@@ -15,25 +15,26 @@ h4
 	position: relative;
 	width: 97%;
 }
-#hudview
+#disks
 {
-	bottom:15%;
-	height: 10%;
-	left:20px;
-	position: absolute;
-	width: 10%;
-	z-index:1000;
+	background-image: url("../assets/images/");
 }
-#mainview
+#disks,
+#levels,
+#papers
 {
-	height: 100%;
-	left: 0px;
-	position: absolute;
-	top: 0px;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 50% 30%;
+	display: block;
 }
-#explosiveAmount,
-#shrapnelAmount,
-#slugAmount
+#disks
+{
+	background-image: url("../assets/images/");
+}
+#disksAmount,
+#levelAmount,
+#papersAmount
 {
 	padding-top: 90%;
 }
@@ -61,17 +62,26 @@ h4
 	right: 3%;
 	bottom: 3%;
 }
-#HUD-timer
-{
-	top: 3%;
-	left: 45%;
-}
 #HUD-legend
 {
 	bottom: 3%;
 	height: auto;
 	right: 3%;
 	width: 10%;
+}
+#HUD-timer
+{
+	top: 3%;
+	left: 45%;
+}
+#hudview
+{
+	bottom:15%;
+	height: 10%;
+	left:20px;
+	position: absolute;
+	width: 10%;
+	z-index: 1000;
 }
 #legend-container,
 #timer-container
@@ -91,26 +101,32 @@ h4
 	padding-left: 10%;
 	text-align: left;
 }
-#explosive,
-#shrapnel,
-#slug
+#level
 {
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: 50% 30%;
+	background-image: url("../assets/images/");
+}
+#loadModal
+{
+	background-color: #FFFFFF;
 	display: block;
+	height: 100px;
+	left: 40%;
+	position: absolute;
+	top: 45%;
+	width: 20%;
+	z-index: 1000;
 }
-#explosive
+#loadModal p
 {
-	background-image: url("../assets/images/cannonball-02.png");
+	padding-top: 45px;
+	text-align: center;
 }
-#shrapnel
+#mainview
 {
-	background-image: url("../assets/images/cannonball-03.png");
-}
-#slug
-{
-	background-image: url("../assets/images/cannonball-01.png");
+	height: 100%;
+	left: 0px;
+	position: absolute;
+	top: 0px;
 }
 .time
 {
