@@ -108,7 +108,7 @@ h4
 #loadModal
 {
 	background-color: #FFFFFF;
-	display: block;
+	display: none;
 	height: 100px;
 	left: 40%;
 	position: absolute;

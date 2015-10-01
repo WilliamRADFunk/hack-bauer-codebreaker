@@ -86,8 +86,6 @@
 	
 	function init()
 	{
-		document.getElementById("loadModal").style.display = "block";
-
 		scene = new THREE.Scene();
 	
 		camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -110,22 +108,17 @@
 		renderer = new THREE.WebGLRenderer();
 		renderer.setClearColor( 0x000000, 0 );
 		renderer.setSize( window.innerWidth, window.innerHeight );
-		renderer.shadowMapEnabled = true;
 
 		renderer2 = new THREE.WebGLRenderer();
 		renderer2.setClearColor( 0x000000, 0 );
 		renderer2.setSize( 150, 150 );
-		renderer2.shadowMapEnabled = false;
 		
-		addFloorCeiling();
-		addWalls();
+		populateScene();
 
 		// add spotlight for the shadows
         var spotLight = new THREE.SpotLight( 0xffffff );
         spotLight.position.set( 10, 20, 20 );
-        spotLight.shadowCameraNear = 20;
-        spotLight.shadowCameraFar = 50;
-        spotLight.castShadow = true;
+        spotLight.castShadow = false;
         scene.add(spotLight);
 		
 		var playerGeometry = new THREE.SphereGeometry( 4 );
@@ -144,10 +137,8 @@
 		var container2 = document.getElementById("hudview");
 		document.body.appendChild( container2 );
 		container2.appendChild( renderer2.domElement );
-		
-		render();
 
-		document.getElementById("loadModal").style.display = "none";
+		render();
 	}
 
 		function addFloorCeiling()
@@ -183,8 +174,10 @@
 		return wallmesh;
 	}
 	
-	function addWalls()
+	function populateScene()
 	{
+		addFloorCeiling();
+
 		walls = new THREE.Object3D();
 
 		var texture1 = THREE.ImageUtils.loadTexture('assets/textures/brick-1.jpg');
@@ -262,7 +255,7 @@
 		scene.add( walls );
 	}
 
-	function moveCamera( xd, yd )
+	function moveCamera( x_old, y_old, xd, yd )
 	{
 		var x = camera.position.x + STRIDE * Math.sin( camera.rotation.y ) * xd;
 		var y = camera.position.y + STRIDE * Math.cos( camera.rotation.y ) * yd;
@@ -271,16 +264,38 @@
 		{
 			if(x >= map1BlockedAreas[i][0] && x <= map1BlockedAreas[i][1] && y >= map1BlockedAreas[i][2] && y <= map1BlockedAreas[i][3])
 			{
-				return;
+				if(x_old < map1BlockedAreas[i][0] || x_old > map1BlockedAreas[i][1])
+				{
+					if(y < map1BlockedAreas[i][2] || y > map1BlockedAreas[i][3])
+					{
+						camera.position.x = x_old;
+						camera.position.y = y;
+						return "Collision";
+					}
+					else
+					{
+						return "Collision";
+					}
+				}
+				else if(y_old < map1BlockedAreas[i][2] || y_old > map1BlockedAreas[i][3])
+				{
+					if(x < map1BlockedAreas[i][0] || x > map1BlockedAreas[i][1])
+					{
+						camera.position.x = x;
+						camera.position.y = y_old;
+						return "Collision";
+					}
+					else
+					{
+						return "Collision";
+					}
+				}
 			}
 		}
 
 		camera.position.x = x;
 		camera.position.y = y;
-		
-		player.position.x = camera.position.x;
-		player.position.y = camera.position.y;
-		player.position.z = camera.position.z;
+		return "empty";
 	}
 	
 	function render()
@@ -300,22 +315,102 @@
 		if( keyboard.pressed("right") && keyboard.pressed("forward") )
 		{
 			camera.rotation.y -= 0.04;
-			moveCamera( -1, 1 );
+			switch( moveCamera( camera.position.x, camera.position.y, -1, 1 ) )
+			{
+				case "clear":
+				{
+					player.position.x = camera.position.x;
+					player.position.y = camera.position.y;
+					player.position.z = camera.position.z;
+					break;
+				}
+				case "collision":
+				{
+					player.position.x = camera.position.x;
+					player.position.y = camera.position.y;
+					player.position.z = camera.position.z;
+					break;
+				}
+				default:
+				{
+					break;
+				}
+			}
 		}
 		else if( keyboard.pressed("left") && keyboard.pressed("forward") )
 		{
 			camera.rotation.y += 0.04;
-			moveCamera( -1, 1 );
+			switch( moveCamera( camera.position.x, camera.position.y, -1, 1 ) )
+			{
+				case "clear":
+				{
+					player.position.x = camera.position.x;
+					player.position.y = camera.position.y;
+					player.position.z = camera.position.z;
+					break;
+				}
+				case "collision":
+				{
+					player.position.x = camera.position.x;
+					player.position.y = camera.position.y;
+					player.position.z = camera.position.z;
+					break;
+				}
+				default:
+				{
+					break;
+				}
+			}
 		}
 		else if( keyboard.pressed("right") && keyboard.pressed("backward") )
 		{
 			camera.rotation.y -= 0.04;
-			moveCamera( 1, -1 );
+			switch( moveCamera( camera.position.x, camera.position.y, -1, 1 ) )
+			{
+				case "clear":
+				{
+					player.position.x = camera.position.x;
+					player.position.y = camera.position.y;
+					player.position.z = camera.position.z;
+					break;
+				}
+				case "collision":
+				{
+					player.position.x = camera.position.x;
+					player.position.y = camera.position.y;
+					player.position.z = camera.position.z;
+					break;
+				}
+				default:
+				{
+					break;
+				}
+			}
 		}
 		else if( keyboard.pressed("left") && keyboard.pressed("backward") )
 		{
 			camera.rotation.y += 0.04;
-			moveCamera( 1, -1 );
+			switch( moveCamera( camera.position.x, camera.position.y, -1, 1 ) )
+			{
+				case "clear":
+				{
+					player.position.x = camera.position.x;
+					player.position.y = camera.position.y;
+					player.position.z = camera.position.z;
+					break;
+				}
+				case "collision":
+				{
+					player.position.x = camera.position.x;
+					player.position.y = camera.position.y;
+					player.position.z = camera.position.z;
+					break;
+				}
+				default:
+				{
+					break;
+				}
+			}
 		}
 		else if( keyboard.pressed("right") )
 		{
@@ -327,11 +422,51 @@
 		}
 		else if( keyboard.pressed("forward") )
 		{
-			moveCamera( -1, 1 );
+			switch( moveCamera( camera.position.x, camera.position.y, -1, 1 ) )
+			{
+				case "clear":
+				{
+					player.position.x = camera.position.x;
+					player.position.y = camera.position.y;
+					player.position.z = camera.position.z;
+					break;
+				}
+				case "collision":
+				{
+					player.position.x = camera.position.x;
+					player.position.y = camera.position.y;
+					player.position.z = camera.position.z;
+					break;
+				}
+				default:
+				{
+					break;
+				}
+			}
 		}
 		else if( keyboard.pressed("backward") )
 		{
-			moveCamera( 1, -1 );
+			switch( moveCamera( camera.position.x, camera.position.y, -1, 1 ) )
+			{
+				case "clear":
+				{
+					player.position.x = camera.position.x;
+					player.position.y = camera.position.y;
+					player.position.z = camera.position.z;
+					break;
+				}
+				case "collision":
+				{
+					player.position.x = camera.position.x;
+					player.position.y = camera.position.y;
+					player.position.z = camera.position.z;
+					break;
+				}
+				default:
+				{
+					break;
+				}
+			}
 		}
 	
 		requestAnimationFrame( render );
