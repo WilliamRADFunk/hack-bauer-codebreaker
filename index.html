@@ -41,36 +41,42 @@
 	var scene;
 	var camera, hudcamera;
 	var player;
+	var walls, elevator;
 	var updateCounter = 0;
 	var timer = 36000;
 
 	var map1 = [// 01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19
 			   [1, 1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1], // 00
-			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 01
-			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 02
-			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 03
-			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 04
-			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 05
-			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 06
-			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 07
-			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 08
-			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 09
-			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 10
-			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 11
-			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 12
-			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 13
-			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 14
-			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 15
-			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 16
-			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 17
-			   [2, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2], // 18
+			   [2, 0,  0,  0,  3,  3,  3,  0,  0,  0,  0,  0,  0,  3,  0,  3,  0,  0,  0,  2], // 01
+			   [2, 0,  3,  0,  3,  3,  3,  0,  3,  3,  3,  3,  0,  3,  0,  3,  0,  3,  0,  2], // 02
+			   [2, 0,  3,  0,  0,  0,  3,  0,  3,  0,  0,  3,  0,  3,  0,  0,  0,  3,  0,  2], // 03
+			   [2, 0,  3,  0,  3,  0,  3,  0,  3,  0,  0,  3,  0,  3,  0,  3,  0,  3,  0,  2], // 04
+			   [2, 0,  3,  0,  3,  0,  3,  3,  3,  0,  3,  3,  0,  3,  0,  3,  0,  3,  4,  2], // 05
+			   [2, 0,  0,  0,  3,  0,  0,  0,  3,  0,  0,  3,  0,  3,  3,  3,  0,  3,  3,  2], // 06
+			   [2, 0,  3,  0,  3,  3,  3,  0,  3,  0,  0,  3,  0,  0,  0,  0,  0,  0,  0,  2], // 07
+			   [2, 0,  3,  0,  3,  0,  3,  0,  3,  0,  3,  3,  3,  3,  0,  3,  0,  3,  0,  2], // 08
+			   [2, 0,  3,  0,  3,  0,  3,  0,  3,  0,  0,  0,  0,  3,  0,  3,  0,  3,  0,  2], // 09
+			   [2, 3,  3,  3,  3,  0,  3,  0,  3,  0,  3,  3,  0,  3,  0,  3,  0,  3,  0,  2], // 10
+			   [2, 0,  0,  0,  3,  0,  3,  0,  3,  0,  0,  3,  0,  3,  0,  3,  3,  3,  0,  2], // 11
+			   [2, 0,  3,  0,  3,  0,  3,  3,  3,  0,  0,  3,  0,  3,  0,  3,  0,  3,  3,  2], // 12
+			   [2, 0,  3,  0,  3,  0,  3,  0,  0,  0,  3,  3,  0,  3,  0,  3,  0,  3,  0,  2], // 13
+			   [2, 0,  3,  0,  0,  0,  3,  0,  3,  0,  0,  3,  0,  3,  0,  3,  0,  3,  0,  2], // 14
+			   [2, 0,  3,  0,  3,  0,  3,  0,  3,  0,  0,  0,  0,  0,  0,  0,  0,  3,  0,  2], // 15
+			   [2, 0,  3,  0,  3,  0,  3,  0,  3,  3,  3,  0,  3,  0,  3,  3,  0,  3,  0,  2], // 16
+			   [2, 0,  3,  0,  3,  3,  3,  0,  3,  3,  3,  0,  3,  0,  3,  3,  0,  3,  0,  2], // 17
+			   [2, 0,  0,  0,  0,  0,  0,  0,  3,  3,  3,  0,  3,  0,  0,  0,  0,  0,  0,  2], // 18
 			   [1, 1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1], // 19
 			   ], map1Width = map1.length, map1Height = map1[0].length;
 
-	var WALLHEIGHT = 15;
+	var map1BlockedAreas = [];
+
+	var WALL_HEIGHT = 15;
 	var STRIDE = 0.7;
-	var SCENEWIDTH = 200, SCENEHEIGHT = 200;
-	var UNITSIZE = 10;
+	var SCENE_WIDTH = 200, SCENE_HEIGHT = 200;
+	var UNIT_SIZE = 10;
+	var BOUNDARY_DISTANCE = (UNIT_SIZE / 2) - 0.5;
+	var START_COORDS = [[85, -85]];
+	var LEVEL = 0;
 	
 	keyboard = new THREEx.KeyboardState();
 	
@@ -79,13 +85,13 @@
 		scene = new THREE.Scene();
 	
 		camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
-		camera.position.x = 0;
-		camera.position.y = 0;
+		camera.position.x = START_COORDS[LEVEL][0];
+		camera.position.y = START_COORDS[LEVEL][1];
 		camera.position.z = 5;
 		camera.rotation.x = 0;
 		camera.rotation.y = 0;
 		camera.rotation.z = 0;
-		var pos = new THREE.Vector3( 0, 200, 0 );
+		var pos = new THREE.Vector3( START_COORDS[LEVEL][0], 200, 0 );
 		camera.lookAt( pos );
 		
 		//hudcamera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 3000 );
@@ -105,7 +111,7 @@
 		renderer2.setSize( 150, 150 );
 		renderer2.shadowMapEnabled = false;
 		
-		addFloorCieling();
+		addFloorCeiling();
 		addWalls();
 
 		// add spotlight for the shadows
@@ -119,6 +125,7 @@
 		var playerGeometry = new THREE.SphereGeometry( 4 );
 		var playerMaterial = new THREE.MeshBasicMaterial({color:'white'});
 		player = new THREE.Mesh( playerGeometry, playerMaterial );
+		player.position.set(START_COORDS[LEVEL][0], START_COORDS[LEVEL][1], 2)
 		scene.add( player );
 		
 		renderer.autoClear = false;
@@ -135,13 +142,13 @@
 		render();
 	}
 
-		function addFloorCieling()
+		function addFloorCeiling()
 	{
 		var floorTexture = THREE.ImageUtils.loadTexture('assets/textures/wood-floorboards-texture.jpg');
 		floorTexture.wrapS = THREE.RepeatWrapping;
 		floorTexture.wrapT = THREE.RepeatWrapping;
 		floorTexture.repeat.set( 10, 10 );
-		var floorGeometry = new THREE.BoxGeometry( SCENEWIDTH, SCENEHEIGHT, 1 );
+		var floorGeometry = new THREE.BoxGeometry( SCENE_WIDTH, SCENE_HEIGHT, 1 );
 		var floorMaterial = new THREE.MeshBasicMaterial({map:floorTexture});
 		var floor = new THREE.Mesh( floorGeometry, floorMaterial );
 		scene.add( floor );
@@ -150,10 +157,10 @@
 		ceilingTexture.wrapS = THREE.RepeatWrapping;
 		ceilingTexture.wrapT = THREE.RepeatWrapping;
 		ceilingTexture.repeat.set( 30, 30 );
-		var ceilingGeometry = new THREE.PlaneGeometry( SCENEWIDTH, SCENEHEIGHT, 1 );
+		var ceilingGeometry = new THREE.PlaneGeometry( SCENE_WIDTH, SCENE_HEIGHT, 1 );
 		var ceilingMaterial = new THREE.MeshBasicMaterial( {map:ceilingTexture, side: THREE.BackSide} );
 		var ceiling = new THREE.Mesh( ceilingGeometry, ceilingMaterial );
-		ceiling.position.z = WALLHEIGHT;
+		ceiling.position.z = WALL_HEIGHT;
 		scene.add( ceiling );
 	}
 	
@@ -165,11 +172,13 @@
 		wallmesh.position.z = zp;
 		wallmesh.position.y = yp;
 		wallmesh.position.x = xp;
-		scene.add( wallmesh );
+		return wallmesh;
 	}
 	
 	function addWalls()
 	{
+		walls = new THREE.Object3D();
+
 		var texture1 = THREE.ImageUtils.loadTexture('assets/textures/brick-1.jpg');
 		texture1.wrapS = THREE.RepeatWrapping;
 		texture1.wrapT = THREE.RepeatWrapping;
@@ -179,6 +188,11 @@
 		texture2.wrapS = THREE.RepeatWrapping;
 		texture2.wrapT = THREE.RepeatWrapping;
 		texture2.repeat.set( 1, 2 );
+
+		var texture3 = THREE.ImageUtils.loadTexture('assets/textures/brick-6.jpg');
+		texture3.wrapS = THREE.RepeatWrapping;
+		texture3.wrapT = THREE.RepeatWrapping;
+		texture3.repeat.set( 2, 2 );
 
 		var tileTexture = THREE.ImageUtils.loadTexture('assets/textures/tile-pentagon.jpg');
 		tileTexture.wrapS = THREE.RepeatWrapping;
@@ -194,22 +208,42 @@
 				{
 					continue;
 				}
-				else if(map1[i][j] == 1)
+				
+				var k = (i * UNIT_SIZE) - 95;	// Wall's x-coord.
+				var t = (j * UNIT_SIZE) - 95;	// Wall's y-coord.
+
+				var a = k - (UNIT_SIZE - BOUNDARY_DISTANCE);		// Wall's min-x boundary;
+				var b = k + (UNIT_SIZE - BOUNDARY_DISTANCE);		// Wall's max-x boundary;
+				var c = t - (UNIT_SIZE - BOUNDARY_DISTANCE);		// Wall's min-y boundary;
+				var d = t + (UNIT_SIZE - BOUNDARY_DISTANCE);		// Wall's max-y boundary;
+				
+				if(map1[i][j] == 1)
 				{
-					addAWall( UNITSIZE, UNITSIZE, WALLHEIGHT, (i * UNITSIZE) - 100, (j * UNITSIZE) - 100, WALLHEIGHT / 2, texture1 );
+					map1BlockedAreas.push([a, b, c, d]);
+					walls.add(addAWall( UNIT_SIZE, UNIT_SIZE, WALL_HEIGHT, k, t, WALL_HEIGHT / 2, texture1 ));
 				}
 				else if(map1[i][j] == 2)
 				{
-					addAWall( UNITSIZE, UNITSIZE, WALLHEIGHT, (i * UNITSIZE) - 100, (j * UNITSIZE) - 100, WALLHEIGHT / 2, texture2 );
+					map1BlockedAreas.push([a, b, c, d]);
+					walls.add(addAWall( UNIT_SIZE, UNIT_SIZE, WALL_HEIGHT, k, t, WALL_HEIGHT / 2, texture2 ));
+				}
+				else if(map1[i][j] == 3)
+				{
+					map1BlockedAreas.push([a, b, c, d]);
+					walls.add(addAWall( UNIT_SIZE, UNIT_SIZE, WALL_HEIGHT, k, t, WALL_HEIGHT / 2, texture3 ));
+				}
+				else if(map1[i][j] == 4)
+				{
+					var elevatorGeometry = new THREE.PlaneGeometry( UNIT_SIZE, UNIT_SIZE, 1 );
+					var elevatorMaterial = new THREE.MeshBasicMaterial( {color: 'red', side: THREE.DoubleSide} );
+					elevator = new THREE.Mesh(elevatorGeometry, elevatorMaterial);
+					elevator.position.set(k, t, 0.6);
+					scene.add(elevator);
 				}
 			}
 		}
-		//addAWall( SCENEWIDTH, 5, WALLHEIGHT, 0, (SCENEHEIGHT / 2), WALLHEIGHT / 2, texturex );
-		//addAWall( SCENEWIDTH, 5, WALLHEIGHT, 0, -(SCENEHEIGHT / 2), WALLHEIGHT / 2, texturex );
-		//addAWall( 5, SCENEHEIGHT, WALLHEIGHT, -(SCENEWIDTH / 2), 0, WALLHEIGHT / 2, texturey );
-		//addAWall( 5, SCENEHEIGHT, WALLHEIGHT, (SCENEWIDTH / 2), 0, WALLHEIGHT / 2, texturey );
 
-		//addAWall(50, 5, WALLHEIGHT, -75, -60, 7.5, tileTexture);
+		scene.add( walls );
 	}
 
 	function moveCamera( xd, yd )
@@ -217,7 +251,14 @@
 		var x = camera.position.x + STRIDE * Math.sin( camera.rotation.y ) * xd;
 		var y = camera.position.y + STRIDE * Math.cos( camera.rotation.y ) * yd;
 		
-			
+		for(var i = 0; i < map1BlockedAreas.length; i++)
+		{
+			if(x >= map1BlockedAreas[i][0] && x <= map1BlockedAreas[i][1] && y >= map1BlockedAreas[i][2] && y <= map1BlockedAreas[i][3])
+			{
+				return;
+			}
+		}
+
 		camera.position.x = x;
 		camera.position.y = y;
 		
@@ -242,31 +283,31 @@
 
 		if( keyboard.pressed("right") && keyboard.pressed("forward") )
 		{
-			camera.rotation.y -= 0.02;
+			camera.rotation.y -= 0.03;
 			moveCamera( -1, 1 );
 		}
 		else if( keyboard.pressed("left") && keyboard.pressed("forward") )
 		{
-			camera.rotation.y += 0.02;
+			camera.rotation.y += 0.03;
 			moveCamera( -1, 1 );
 		}
 		else if( keyboard.pressed("right") && keyboard.pressed("backward") )
 		{
-			camera.rotation.y -= 0.02;
+			camera.rotation.y -= 0.03;
 			moveCamera( 1, -1 );
 		}
 		else if( keyboard.pressed("left") && keyboard.pressed("backward") )
 		{
-			camera.rotation.y += 0.02;
+			camera.rotation.y += 0.03;
 			moveCamera( 1, -1 );
 		}
 		else if( keyboard.pressed("right") )
 		{
-			camera.rotation.y -= 0.02;
+			camera.rotation.y -= 0.03;
 		}
 		else if( keyboard.pressed("left") )
 		{
-			camera.rotation.y += 0.02;
+			camera.rotation.y += 0.03;
 		}
 		else if( keyboard.pressed("forward") )
 		{
