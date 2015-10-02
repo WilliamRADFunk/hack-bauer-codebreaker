@@ -3,6 +3,7 @@ keyboard = new THREEx.KeyboardState();
 function init()
 {
 	maps.push(map1);
+	maps.push(map2);
 	mapBlockedAreas[LEVEL] = [];
 	scene = new THREE.Scene();
 
