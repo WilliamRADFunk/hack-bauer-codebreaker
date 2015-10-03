@@ -81,6 +81,11 @@ function populateScene()
 	greyWallTexture_03.wrapT = THREE.RepeatWrapping;
 	greyWallTexture_03.repeat.set( 4, 4 );
 
+	var floppyDiskTexture = THREE.ImageUtils.loadTexture('assets/textures/floppy-drive.png');
+	floppyDiskTexture.wrapS = THREE.RepeatWrapping;
+	floppyDiskTexture.wrapT = THREE.RepeatWrapping;
+	floppyDiskTexture.repeat.set( 1, 1 );
+
 	var tilePentagonTexture = THREE.ImageUtils.loadTexture('assets/textures/tile-pentagon.jpg');
 	tilePentagonTexture.wrapS = THREE.RepeatWrapping;
 	tilePentagonTexture.wrapT = THREE.RepeatWrapping;
@@ -90,21 +95,25 @@ function populateScene()
 	for(var i = 0; i < mapWidth; i++)
 	{
 		for(var j = 0; j < mapHeight; j++)
-		{
+		{			
+			var k = (i * UNIT_SIZE) - 95;	// location's x-coord.
+			var t = (j * UNIT_SIZE) - 95;	// location's y-coord.
+
+			var a = k - (UNIT_SIZE - BOUNDARY_DISTANCE);		// location's min-x boundary;
+			var b = k + (UNIT_SIZE - BOUNDARY_DISTANCE);		// location's max-x boundary;
+			var c = t - (UNIT_SIZE - BOUNDARY_DISTANCE);		// location's min-y boundary;
+			var d = t + (UNIT_SIZE - BOUNDARY_DISTANCE);		// location's max-y boundary;
+
 			if(maps[LEVEL][i][j] == 0)
 			{
-				continue;
+				var floppyDiskGeometry = new THREE.BoxGeometry(1, 1, 1);
+				var floppyDiskMaterial = new THREE.MeshBasicMaterial({map: floppyDiskTexture});
+				var floppy = new THREE.Mesh(floppyDiskGeometry, floppyDiskMaterial);
+				floppy.position.set(k, t, 3);
+				disks.push(floppy);
+				scene.add(floppy);
 			}
-			
-			var k = (i * UNIT_SIZE) - 95;	// Wall's x-coord.
-			var t = (j * UNIT_SIZE) - 95;	// Wall's y-coord.
-
-			var a = k - (UNIT_SIZE - BOUNDARY_DISTANCE);		// Wall's min-x boundary;
-			var b = k + (UNIT_SIZE - BOUNDARY_DISTANCE);		// Wall's max-x boundary;
-			var c = t - (UNIT_SIZE - BOUNDARY_DISTANCE);		// Wall's min-y boundary;
-			var d = t + (UNIT_SIZE - BOUNDARY_DISTANCE);		// Wall's max-y boundary;
-			
-			if(maps[LEVEL][i][j] == 1)
+			else if(maps[LEVEL][i][j] == 1)
 			{
 				mapBlockedAreas[LEVEL].push([a, b, c, d]);
 				walls.add(addAWall( UNIT_SIZE, UNIT_SIZE, WALL_HEIGHT, k, t, WALL_HEIGHT / 2, exteriorWallTexture_01 ));

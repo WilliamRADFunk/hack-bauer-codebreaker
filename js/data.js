@@ -14,6 +14,8 @@ var renderer, renderer2;
 var camera, miniMapCamera;
 var player;
 var walls;
+var disks = [];
+var disksCollected = 0;
 /* THREE.JS Variables         */
 
 /* Counters                   */
