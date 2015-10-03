@@ -31,7 +31,7 @@ function init()
 	var playerGeometry = new THREE.SphereGeometry( 4 );
 	var playerMaterial = new THREE.MeshBasicMaterial({color:'white'});
 	player = new THREE.Mesh( playerGeometry, playerMaterial );
-	player.position.set(START_COORDS[LEVEL][0], START_COORDS[LEVEL][1], 2)
+	player.position.set(START_COORDS[LEVEL][0], START_COORDS[LEVEL][1], 2);
 	scene.add( player );
 	
 	// Contains the 1st POV, and all HUD elements.

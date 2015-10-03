@@ -109,6 +109,7 @@ function populateScene()
 				var floppyDiskGeometry = new THREE.BoxGeometry(1, 1, 1);
 				var floppyDiskMaterial = new THREE.MeshBasicMaterial({map: floppyDiskTexture});
 				var floppy = new THREE.Mesh(floppyDiskGeometry, floppyDiskMaterial);
+				floppy.name = "disk";
 				floppy.position.set(k, t, 3);
 				disks.push(floppy);
 				scene.add(floppy);
