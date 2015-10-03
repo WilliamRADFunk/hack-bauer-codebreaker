@@ -18,21 +18,14 @@ function init()
 	renderer2.setClearColor( 0x000000, 0 );
 	renderer2.setSize( 150, 150 );
 	renderer2.autoClear = false;
+
+	loadSounds();
 	
 	populateScene();
 
-	// Main lightsource -- shadows eliminated
-    var spotLight = new THREE.SpotLight( 0xffffff );
-    spotLight.position.set( 10, 20, 20 );
-    spotLight.castShadow = false;
-    scene.add(spotLight);
-	
-	// Player's physical form
-	var playerGeometry = new THREE.SphereGeometry( 4 );
-	var playerMaterial = new THREE.MeshBasicMaterial({color:'white'});
-	player = new THREE.Mesh( playerGeometry, playerMaterial );
-	player.position.set(START_COORDS[LEVEL][0], START_COORDS[LEVEL][1], 2);
-	scene.add( player );
+	spawnPlayer();
+
+	turnOnLights();
 	
 	// Contains the 1st POV, and all HUD elements.
 	var container = document.getElementById("mainview");
@@ -51,5 +44,65 @@ function init()
 	document.getElementById( "level-number" ).innerHTML = LEVEL + 1;
 	document.getElementById( "total-levels" ).innerHTML = LEVEL_MAX;
 
+	countdown.autoplay = true;
+	totalDisks = disks.length;
+	console.log(totalDisks);
+
 	render();
+}
+function loadSounds()
+{
+	music_level_01 = new Audio("assets/audio/music_level_01.mp3");
+	music_level_02 = new Audio("assets/audio/music_level_01.mp3");
+	music_level_03 = new Audio("assets/audio/music_level_01.mp3");
+	music_level_04 = new Audio("assets/audio/music_level_01.mp3");
+	music_level_05 = new Audio("assets/audio/music_level_01.mp3");
+	music_level_06 = new Audio("assets/audio/music_level_01.mp3");
+	music_level_07 = new Audio("assets/audio/music_level_01.mp3");
+	music_level_08 = new Audio("assets/audio/music_level_01.mp3");
+	music_level_09 = new Audio("assets/audio/music_level_01.mp3");
+	music_level_10 = new Audio("assets/audio/music_level_01.mp3");
+	countdown = new Audio("assets/audio/countdown.mp3");
+	datanode = new Audio("assets/audio/datanode.mp3");
+	footsteps = new Audio("assets/audio/footsteps.mp3");
+}
+function spawnPlayer()
+{
+	// Player's physical form
+	var playerGeometry = new THREE.SphereGeometry( 4 );
+	var playerMaterial = new THREE.MeshBasicMaterial({color:'white'});
+	player = new THREE.Mesh( playerGeometry, playerMaterial );
+	player.position.set(START_COORDS[LEVEL][0], START_COORDS[LEVEL][1], 2);
+	scene.add( player );
+}
+function turnOnLights()
+{
+	// Main lightsource -- shadows eliminated
+    var spotLight = new THREE.SpotLight( 0xffffff );
+    spotLight.position.set( 10, 20, 20 );
+    spotLight.castShadow = false;
+    scene.add(spotLight);
+}
+function nextLevel()
+{
+	scene.remove(walls);
+	scene.remove(floor);
+	scene.remove(ceiling);
+	scene.remove(startPoint);
+	scene.remove(elevator);
+	scene.remove(player);
+	for(var i = 0; i < disks.length; i++)
+	{
+		scene.remove(disks[i]);
+	}
+	disksCollected = 0;
+	updateCounter = 0;
+	disks.length = 0;
+	LEVEL++;
+	mapBlockedAreas[LEVEL] = [];
+	populateScene();
+	spawnPlayer();
+	camera.position.set(START_COORDS[LEVEL][0], START_COORDS[LEVEL][1], 5);
+	document.getElementById( "level-number" ).innerHTML = LEVEL + 1;
+	document.getElementById( "disks-level-total" ).innerHTML = disks.length;
 }

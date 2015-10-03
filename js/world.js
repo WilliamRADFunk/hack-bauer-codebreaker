@@ -10,7 +10,7 @@ function addFloorCeiling()
 			floorTexture.repeat.set( 10, 10 );
 			var floorGeometry = new THREE.BoxGeometry( SCENE_WIDTH, SCENE_HEIGHT, 1 );
 			var floorMaterial = new THREE.MeshBasicMaterial({map:floorTexture});
-			var floor = new THREE.Mesh( floorGeometry, floorMaterial );
+			floor = new THREE.Mesh( floorGeometry, floorMaterial );
 			scene.add( floor );
 
 			var ceilingTexture = THREE.ImageUtils.loadTexture('assets/textures/tile-ceiling.jpg');
@@ -19,7 +19,7 @@ function addFloorCeiling()
 			ceilingTexture.repeat.set( 30, 30 );
 			var ceilingGeometry = new THREE.PlaneGeometry( SCENE_WIDTH, SCENE_HEIGHT, 1 );
 			var ceilingMaterial = new THREE.MeshBasicMaterial( {map:ceilingTexture, side: THREE.BackSide} );
-			var ceiling = new THREE.Mesh( ceilingGeometry, ceilingMaterial );
+			ceiling = new THREE.Mesh( ceilingGeometry, ceilingMaterial );
 			ceiling.position.z = WALL_HEIGHT;
 			scene.add( ceiling );
 			break;
@@ -32,7 +32,7 @@ function addFloorCeiling()
 			floorTexture.repeat.set( 10, 10 );
 			var floorGeometry = new THREE.BoxGeometry( SCENE_WIDTH, SCENE_HEIGHT, 1 );
 			var floorMaterial = new THREE.MeshBasicMaterial({map:floorTexture});
-			var floor = new THREE.Mesh( floorGeometry, floorMaterial );
+			floor = new THREE.Mesh( floorGeometry, floorMaterial );
 			scene.add( floor );
 
 			var ceilingTexture = THREE.ImageUtils.loadTexture('assets/textures/ceiling-textured-white.jpg');
@@ -41,7 +41,7 @@ function addFloorCeiling()
 			ceilingTexture.repeat.set( 30, 30 );
 			var ceilingGeometry = new THREE.PlaneGeometry( SCENE_WIDTH, SCENE_HEIGHT, 1 );
 			var ceilingMaterial = new THREE.MeshBasicMaterial( {map:ceilingTexture, side: THREE.BackSide} );
-			var ceiling = new THREE.Mesh( ceilingGeometry, ceilingMaterial );
+			ceiling = new THREE.Mesh( ceilingGeometry, ceilingMaterial );
 			ceiling.position.z = WALL_HEIGHT;
 			scene.add( ceiling );
 			break;
@@ -141,7 +141,7 @@ function populateScene()
 			{
 				var elevatorGeometry = new THREE.PlaneGeometry( UNIT_SIZE, UNIT_SIZE, 1 );
 				var elevatorMaterial = new THREE.MeshBasicMaterial( {color: 'red', side: THREE.DoubleSide} );
-				var elevator = new THREE.Mesh(elevatorGeometry, elevatorMaterial);
+				elevator = new THREE.Mesh(elevatorGeometry, elevatorMaterial);
 				elevator.position.set(k, t, 0.6);
 				scene.add(elevator);
 			}

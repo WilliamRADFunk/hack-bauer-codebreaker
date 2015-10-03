@@ -14,6 +14,16 @@ function render()
 		document.getElementById( 'disks-level-amount' ).innerHTML = disksCollected;
 	}
 
+	// Checks to see if player has reached an elevator
+	if(updateCounter % 10 == 0)
+	{
+		if( (player.position.x >= elevator.position.x - 5) && (player.position.x <= elevator.position.x + 5) &&
+			(player.position.y >= elevator.position.y - 5) && (player.position.y <= elevator.position.y + 5) )
+		{
+			nextLevel();
+		}
+	}
+
 	// Keeps track of the time, updating the HUD timer.
 	if(updateCounter % 59 == 0)
 	{

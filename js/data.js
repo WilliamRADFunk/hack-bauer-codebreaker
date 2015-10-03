@@ -10,19 +10,42 @@ var LEVEL_MAX = 10;
 /* Semi-constant variables    */
 
 /* THREE.JS Variables         */
+var world = [];
 var scene;
 var renderer, renderer2;
 var camera, miniMapCamera;
 var player;
 var walls;
+var floor;
+var ceiling;
+var startPoint;
+var elevator;
 var disks = [];
 var disksCollected = 0;
 var disksCollectedOverall = 0;
+var totalDisks = 0;
+var newFlag = true;
 /* THREE.JS Variables         */
+
+/* Sound variables            */
+var countdown;
+var datanode;
+var footsteps;
+var music_level_01,
+	music_level_02,
+	music_level_03,
+	music_level_04,
+	music_level_05,
+	music_level_06,
+	music_level_07,
+	music_level_08,
+	music_level_09,
+	music_level_10;
+/* Sound variables            */
 
 /* Counters                   */
 var updateCounter = 0;
-var timer = 36000;
+var timer = 86940;
 /* Counters                   */
 
 /* Scene Generation Variables */

@@ -34,8 +34,6 @@ function keyPressed()
 					scene.remove(tempObjectHolder);
 					disksCollected++;
 					disksCollectedOverall++;
-					console.log(disksCollected);
-					console.log(disks.length);
 					break;
 					//enemy_killed_01.play();
 				}
@@ -76,8 +74,6 @@ function keyPressed()
 					scene.remove(tempObjectHolder);
 					disksCollected++;
 					disksCollectedOverall++;
-					console.log(disksCollected);
-					console.log(disks.length);
 					break;
 					//enemy_killed_01.play();
 				}
@@ -118,8 +114,6 @@ function keyPressed()
 					scene.remove(tempObjectHolder);
 					disksCollected++;
 					disksCollectedOverall++;
-					console.log(disksCollected);
-					console.log(disks.length);
 					break;
 					//enemy_killed_01.play();
 				}
@@ -160,8 +154,6 @@ function keyPressed()
 					scene.remove(tempObjectHolder);
 					disksCollected++;
 					disksCollectedOverall++;
-					console.log(disksCollected);
-					console.log(disks.length);
 					break;
 					//enemy_killed_01.play();
 				}
@@ -211,8 +203,6 @@ function keyPressed()
 					scene.remove(tempObjectHolder);
 					disksCollected++;
 					disksCollectedOverall++;
-					console.log(disksCollected);
-					console.log(disks.length);
 					break;
 					//enemy_killed_01.play();
 				}
@@ -252,8 +242,6 @@ function keyPressed()
 					scene.remove(tempObjectHolder);
 					disksCollected++;
 					disksCollectedOverall++;
-					console.log(disksCollected);
-					console.log(disks.length);
 					break;
 					//enemy_killed_01.play();
 				}
