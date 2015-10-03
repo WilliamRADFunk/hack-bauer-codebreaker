@@ -15,73 +15,66 @@ h4
 	position: relative;
 	width: 97%;
 }
-#disks
+#disks-level
 {
-	background-image: url("../assets/images/");
-}
-#disks,
-#levels,
-#papers
-{
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: 50% 30%;
 	display: block;
 }
-#disks
+#disks-collected
 {
-	background-image: url("../assets/images/");
+	display: block;
+	padding-left: 4%;
 }
-#disksAmount,
-#levelAmount,
-#papersAmount
+#disks-level-amount,
+#disks-collected-amount
 {
 	padding-top: 90%;
 }
-#HUD-left,
-#HUD-right,
+#HUD-center,
+#HUD-level,
 #HUD-timer,
 #HUD-legend
 {
 	background-color: #000000;
 	color: #FFFFFF;
-	height: 80px;
+	height: auto;
 	opacity: 0.7;
+	padding-bottom: 10px;
+	padding-top: 10px;
 	position: absolute;
 	text-align: center;
 	width: 10%;
 	z-index: 1000;
 }
-#HUD-left
+#HUD-center
 {
-	left: 3%;
-	top: 3%;
-}
-#HUD-mission-details
-{
-	right: 3%;
+	background-image: url("../assets/textures/floppy-drive.png");
+	background-position: 55% center;
+	background-repeat: no-repeat;
+	background-size: 15%;
 	bottom: 3%;
+	left: 40%;
+	width: 20%;
+}
+#HUD-center h4
+{
+	margin-bottom: 1%;
 }
 #HUD-legend
 {
 	bottom: 3%;
 	height: auto;
 	right: 3%;
-	width: 10%;
+}
+#HUD-level
+{
+	padding-top: 1%;
+	right: 3%;
+	top: 3%;
 }
 #HUD-timer
 {
 	top: 3%;
 	left: 45%;
-}
-#miniMapView
-{
-	bottom:15%;
-	height: 10%;
-	left:20px;
-	position: absolute;
-	width: 10%;
-	z-index: 1000;
 }
 #legend-container,
 #timer-container
@@ -101,32 +94,29 @@ h4
 	padding-left: 10%;
 	text-align: left;
 }
-#level
-{
-	background-image: url("../assets/images/");
-}
-#loadModal
-{
-	background-color: #FFFFFF;
-	display: none;
-	height: 100px;
-	left: 40%;
-	position: absolute;
-	top: 45%;
-	width: 20%;
-	z-index: 1000;
-}
-#loadModal p
-{
-	padding-top: 45px;
-	text-align: center;
-}
 #mainview
 {
 	height: 100%;
 	left: 0px;
 	position: absolute;
 	top: 0px;
+}
+#miniMapView
+{
+	bottom:15%;
+	height: 10%;
+	left:20px;
+	position: absolute;
+	width: 10%;
+	z-index: 1000;
+}
+.mission-details
+{
+	display: block;
+	float: left;
+	font-size: 25px;
+	text-align: center;
+	width: 48%;
 }
 .time
 {

@@ -6,6 +6,7 @@ var UNIT_SIZE = 10;
 var BOUNDARY_DISTANCE = (UNIT_SIZE / 2) - 0.5;
 var START_COORDS = [[85, -85], [85, -85]];
 var LEVEL = 0;
+var LEVEL_MAX = 10;
 /* Semi-constant variables    */
 
 /* THREE.JS Variables         */
@@ -16,6 +17,7 @@ var player;
 var walls;
 var disks = [];
 var disksCollected = 0;
+var disksCollectedOverall = 0;
 /* THREE.JS Variables         */
 
 /* Counters                   */

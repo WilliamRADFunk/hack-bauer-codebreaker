@@ -7,6 +7,13 @@ function render()
 	var minutes = Math.floor(timer / 3600);
 	var seconds = Math.floor( (timer - (minutes * 3600)) / 60 );
 
+	// Keeps track of disks collected, updating the HUD.
+	if(updateCounter % 5 == 0)
+	{
+		document.getElementById( 'disks-collected-amount' ).innerHTML = disksCollectedOverall;
+		document.getElementById( 'disks-level-amount' ).innerHTML = disksCollected;
+	}
+
 	// Keeps track of the time, updating the HUD timer.
 	if(updateCounter % 59 == 0)
 	{

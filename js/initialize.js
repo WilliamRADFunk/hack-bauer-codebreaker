@@ -44,5 +44,12 @@ function init()
 	document.body.appendChild( container2 );
 	container2.appendChild( renderer2.domElement );
 
+	document.getElementById( "disks-level-amount" ).innerHTML = disksCollected;
+	document.getElementById( "disks-level-total" ).innerHTML = disks.length;
+	document.getElementById( "disks-collected-amount" ).innerHTML = disksCollectedOverall;
+
+	document.getElementById( "level-number" ).innerHTML = LEVEL + 1;
+	document.getElementById( "total-levels" ).innerHTML = LEVEL_MAX;
+
 	render();
 }
