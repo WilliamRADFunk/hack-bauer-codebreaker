@@ -2,12 +2,12 @@ function render()
 {
 	if(!modalFlag && gameFlag)
 	{
-		if(updateCounter == 60)
+		if(updateCounter == 90)
 		{
 			modalFlag = true;
 		}
 
-		if(updateCounter == 61)
+		if(updateCounter == 91)
 		{
 			countdown.play();
 		}

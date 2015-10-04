@@ -9,6 +9,7 @@ function generateCameras()
 	camera.rotation.z = 0;
 	var pos = new THREE.Vector3( START_COORDS[LEVEL][0], 200, 0 );
 	camera.lookAt( pos );
+	camera.rotation.y = Math.PI / 2;
 	
 	miniMapCamera = new THREE.OrthographicCamera( -100, 100, 100, -100, 0.1, 3000, 1 );
 	miniMapCamera.position.x = 0;

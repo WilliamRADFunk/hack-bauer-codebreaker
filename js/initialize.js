@@ -58,7 +58,7 @@ function loadSounds()
 	music = new Audio("assets/audio/music.mp3");
 	music.loop = true;
 	countdown = new Audio("assets/audio/countdown.mp3");
-	datanode = new Audio("assets/audio/datanode2.mp3");
+	datanode = new Audio("assets/audio/datanode.mp3");
 	footsteps = new Audio("assets/audio/footsteps.mp3");
 }
 function spawnPlayer()
@@ -80,6 +80,7 @@ function turnOnLights()
 }
 function nextLevel()
 {
+	/* Dismantles previous level 					*/
 	music.pause();
 	music.currentTime = 0;
 	countdown.currentTime = 0;
@@ -93,16 +94,68 @@ function nextLevel()
 	{
 		scene.remove(disks[i]);
 	}
+	disks.length = 0;
+	/* Dismantles previous level 					*/
+
+	/* Resets level-specific counters				*/
 	disksCollected = 0;
 	updateCounter = 0;
-	disks.length = 0;
-	modalFlag = true;
+	/* Resets level-specific counters				*/
+
+	/* Builds next level 							*/
 	LEVEL++;
+	levelSpecificModal();
+	turnOnModal();
 	mapBlockedAreas[LEVEL] = [];
 	START_COORDS[LEVEL] = [];
 	populateScene();
 	spawnPlayer();
+	/* Builds next level 							*/
+
+	/* Positions camera in new starting location.	*/
 	camera.position.set(START_COORDS[LEVEL][0], START_COORDS[LEVEL][1], 5);
+	camera.rotation.x = 0;
+	camera.rotation.y = 0;
+	camera.rotation.z = 0;
+	var pos = new THREE.Vector3( START_COORDS[LEVEL][0], 200, 0 );
+	camera.lookAt( pos );
+	camera.rotation.y = Math.PI / 2;
+	/* Positions camera in new starting location.	*/
+
+	/* Updates HUD for level-specific variables.	*/
 	document.getElementById( "level-number" ).innerHTML = LEVEL + 1;
 	document.getElementById( "disks-level-total" ).innerHTML = disks.length;
+	/* Updates HUD for level-specific variables.	*/
+}
+// Story elements presented in modal form at start of each level
+// First level already in HTML.
+function levelSpecificModal()
+{
+	switch(LEVEL)
+	{
+		// Level #2
+		case 1:
+		{
+			document.getElementById( "modalMessage" ).innerHTML = "Great job, Hack!</br></br>You've managed to outsmart the Umbakastanian security on the ground floor. Don't get cocky, though. As you get closer to the mainframe, security will get tighter.</br></br>I hope I don't have to remind you that if you get caught...you're on your own.";
+			break;
+		}
+		// Level #3
+		case 2:
+		{
+			document.getElementById( "modalMessage" ).innerHTML = "You've made it to the 3rd floor. Our intel suggests Umbakastanian security is getting suspicious. Don't let your guard down, because they won't.";
+			break;
+		}
+		// Level #4
+		case 3:
+		{
+			document.getElementById( "modalMessage" ).innerHTML = "Almost there, Hack!</br></br>You should meet with heavier resistence there on the 4th floor. From what we've heard over the wiretaps, security knows there's an intruder inside.</br></br>Keep your eyes open and your head low.";
+			break;
+		}
+		// Level #5
+		case 4:
+		{
+			document.getElementById( "modalMessage" ).innerHTML = "This is it, Hack!</br></br>You've made it to the most secure floor in the entire consulate. This is where they house their secret mainframe, and the control center for their W-U-Ds. If you can make it there, and crack their secret encryption, you could save millions.</br></br>We're all counting on you Hack. Good luck!";
+			break;
+		}
+	}
 }

@@ -272,10 +272,11 @@ function populateScene()
 			}
 			else if(maps[LEVEL][i][j] == 8)
 			{
-				var startPointGeometry = new THREE.PlaneGeometry( UNIT_SIZE, UNIT_SIZE, 1 );
-				var startPointMaterial = new THREE.MeshBasicMaterial( {color: 'green', side: THREE.DoubleSide} );
-				startPoint = new THREE.Mesh(startPointGeometry, startPointMaterial);
-				startPoint.position.set(k, t, 0.6);
+				var elevatorGeometry = new THREE.BoxGeometry( UNIT_SIZE, UNIT_SIZE, WALL_HEIGHT );
+				var elevatorMaterial = new THREE.MeshBasicMaterial( {map: elevatorTexture} );
+				elevatorMaterial.map.minFilter = THREE.NearestFilter;
+				startPoint = new THREE.Mesh(elevatorGeometry, elevatorMaterial);
+				startPoint.position.set(k, t, WALL_HEIGHT / 2);
 				START_COORDS[LEVEL].push(k);
 				START_COORDS[LEVEL].push(t);
 				scene.add(startPoint);

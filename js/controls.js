@@ -267,6 +267,12 @@ function keyPressed()
 }
 function turnOffModal()
 {
+	if(updateCounter >= 91)
 	document.getElementById("modal").style.display = "none";
+	modalFlag = false;
+}
+function turnOnModal()
+{
+	document.getElementById("modal").style.display = "block";
 	modalFlag = false;
 }

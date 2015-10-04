@@ -92,6 +92,7 @@ h4
 	font-size: 12px;
 	margin-bottom: 5%;
 	padding-left: 10%;
+	padding-right: 10%;
 	text-align: left;
 }
 #mainview
@@ -140,6 +141,10 @@ h4
 	font-size: 25px;
 	text-align: center;
 	width: 48%;
+}
+.right
+{
+	float: right;
 }
 .time
 {
