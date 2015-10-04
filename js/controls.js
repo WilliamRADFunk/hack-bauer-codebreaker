@@ -1,7 +1,8 @@
 function keyPressed()
 {
 	// Simultaneous press of S W & D, or UP & RIGHT
-	if( keyboard.pressed("right") && keyboard.pressed("forward") )
+	if( ( keyboard.pressed("right1") || keyboard.pressed("right2") ) &&
+		( keyboard.pressed("forward1") || keyboard.pressed("forward2") ) )
 	{
 		rotateCamera("right");
 		switch( moveCamera( camera.position.x, camera.position.y, -1, 1 ) )
@@ -43,7 +44,8 @@ function keyPressed()
 		}
 	}
 	// Simultaneous press of S W & A, or UP & LEFT
-	else if( keyboard.pressed("left") && keyboard.pressed("forward") )
+	else if( ( keyboard.pressed("left1") || keyboard.pressed("left2") ) &&
+			 ( keyboard.pressed("forward1") || keyboard.pressed("forward2") ) )
 	{
 		rotateCamera("left");
 		switch( moveCamera( camera.position.x, camera.position.y, -1, 1 ) )
@@ -85,7 +87,8 @@ function keyPressed()
 		}
 	}
 	// Simultaneous press of S S & D, or DOWN & RIGHT
-	else if( keyboard.pressed("right") && keyboard.pressed("backward") )
+	else if( ( keyboard.pressed("right1") || keyboard.pressed("right2") ) &&
+			 ( keyboard.pressed("back1") || keyboard.pressed("back2") ) )
 	{
 		rotateCamera("right");
 		switch( moveCamera( camera.position.x, camera.position.y, 1, -1 ) )
@@ -127,7 +130,8 @@ function keyPressed()
 		}
 	}
 	// Simultaneous press of S & A, or DOWN & LEFT
-	else if( keyboard.pressed("left") && keyboard.pressed("backward") )
+	else if( ( keyboard.pressed("left1") || keyboard.pressed("left2") ) &&
+			 ( keyboard.pressed("back1") || keyboard.pressed("back2") ) )
 	{
 		rotateCamera("left");
 		switch( moveCamera( camera.position.x, camera.position.y, 1, -1 ) )
@@ -169,17 +173,17 @@ function keyPressed()
 		}
 	}
 	// Pressed D, or RIGHT
-	else if( keyboard.pressed("right") )
+	else if( keyboard.pressed("right1") || keyboard.pressed("right2") )
 	{
 		rotateCamera("right");
 	}
 	// Pressed A, or LEFT
-	else if( keyboard.pressed("left") )
+	else if( keyboard.pressed("left1") || keyboard.pressed("left2") )
 	{
 		rotateCamera("left");
 	}
 	// Pressed W, or UP
-	else if( keyboard.pressed("forward") )
+	else if( keyboard.pressed("forward1") || keyboard.pressed("forward2") )
 	{
 		switch( moveCamera( camera.position.x, camera.position.y, -1, 1 ) )
 		{
@@ -220,7 +224,7 @@ function keyPressed()
 		}
 	}
 	// Pressed S, or DOWN
-	else if( keyboard.pressed("backward") )
+	else if( keyboard.pressed("back1") || keyboard.pressed("back2") )
 	{
 		switch( moveCamera( camera.position.x, camera.position.y, 1, -1 ) )
 		{
