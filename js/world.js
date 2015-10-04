@@ -167,6 +167,36 @@ function populateScene()
 	floppyDiskTexture.wrapT = THREE.RepeatWrapping;
 	floppyDiskTexture.repeat.set( 1, 1 );
 
+	var enemy1Materials = 
+	[
+		new THREE.MeshBasicMaterial({
+			map: THREE.ImageUtils.loadTexture('assets/textures/enemy1_2.jpg')
+		}),
+		new THREE.MeshBasicMaterial({
+			map: THREE.ImageUtils.loadTexture('assets/textures/enemy1_3.jpg')
+		}),
+		new THREE.MeshBasicMaterial({
+			map: THREE.ImageUtils.loadTexture('assets/textures/enemy1_4.jpg')
+		}),
+		new THREE.MeshBasicMaterial({
+			map: THREE.ImageUtils.loadTexture('assets/textures/enemy1.jpg')
+		}),
+		new THREE.MeshBasicMaterial({
+			color: 'red'
+		}),
+		new THREE.MeshBasicMaterial({
+			color: 'black'
+		})
+	];
+
+	enemy1Materials[0].map.minFilter = THREE.NearestFilter;
+	enemy1Materials[1].map.minFilter = THREE.NearestFilter;
+	enemy1Materials[2].map.minFilter = THREE.NearestFilter;
+	enemy1Materials[3].map.minFilter = THREE.NearestFilter;
+	
+	/*
+	var enemy1Texture = THREE.ImageUtils.loadTexture('assets/textures/enemy1.jpg');
+	*/
 	var elevatorTexture = THREE.ImageUtils.loadTexture('assets/textures/elevator.jpg');
 
 	var computerTexture = THREE.ImageUtils.loadTexture('assets/textures/computer.jpg');
@@ -225,12 +255,20 @@ function populateScene()
 			}
 			else if(maps[LEVEL][i][j] == 7)
 			{
-				var enemyGeometry = new THREE.PlaneGeometry( UNIT_SIZE, UNIT_SIZE, 1 );
-				var enemyMaterial = new THREE.MeshBasicMaterial( {color: 'red', side: THREE.DoubleSide} );
-				var enemy = new THREE.Mesh(enemyGeometry, enemyMaterial);
-				enemy.position.set(k, t, 0.6);
-				enemies.push(enemy);
-				scene.add(enemy);
+				
+				var enemy1Geometry = new THREE.BoxGeometry( UNIT_SIZE / 2, UNIT_SIZE / 2, WALL_HEIGHT / 4, 1, 1, 1 );
+				var enemy1Mat = new THREE.MeshFaceMaterial( enemy1Materials );
+				enemy1 = new THREE.Mesh(enemy1Geometry, enemy1Mat);
+				
+				/*
+				var enemy1Geometry = new THREE.SphereGeometry(3);
+				var enemy1Material = new THREE.MeshBasicMaterial({map: enemy1Texture});
+				enemy1Material.map.minFilter = THREE.NearestFilter;
+				var enemy1 = new THREE.Mesh(enemy1Geometry, enemy1Material);
+				*/
+				enemy1.position.set(k, t, WALL_HEIGHT / 4);
+				enemies.push(enemy1);
+				scene.add(enemy1);
 			}
 			else if(maps[LEVEL][i][j] == 8)
 			{
