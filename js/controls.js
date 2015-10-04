@@ -34,8 +34,10 @@ function keyPressed()
 					scene.remove(tempObjectHolder);
 					disksCollected++;
 					disksCollectedOverall++;
+					datanode.pause();
+					datanode.currentTime = 0;
+					datanode.play();
 					break;
-					//enemy_killed_01.play();
 				}
 			}
 		}
@@ -74,8 +76,10 @@ function keyPressed()
 					scene.remove(tempObjectHolder);
 					disksCollected++;
 					disksCollectedOverall++;
+					datanode.pause();
+					datanode.currentTime = 0;
+					datanode.play();
 					break;
-					//enemy_killed_01.play();
 				}
 			}
 		}
@@ -114,8 +118,10 @@ function keyPressed()
 					scene.remove(tempObjectHolder);
 					disksCollected++;
 					disksCollectedOverall++;
+					datanode.pause();
+					datanode.currentTime = 0;
+					datanode.play();
 					break;
-					//enemy_killed_01.play();
 				}
 			}
 		}
@@ -154,8 +160,10 @@ function keyPressed()
 					scene.remove(tempObjectHolder);
 					disksCollected++;
 					disksCollectedOverall++;
+					datanode.pause();
+					datanode.currentTime = 0;
+					datanode.play();
 					break;
-					//enemy_killed_01.play();
 				}
 			}
 		}
@@ -203,8 +211,10 @@ function keyPressed()
 					scene.remove(tempObjectHolder);
 					disksCollected++;
 					disksCollectedOverall++;
+					datanode.pause();
+					datanode.currentTime = 0;
+					datanode.play();
 					break;
-					//enemy_killed_01.play();
 				}
 			}
 		}
@@ -242,10 +252,17 @@ function keyPressed()
 					scene.remove(tempObjectHolder);
 					disksCollected++;
 					disksCollectedOverall++;
+					datanode.pause();
+					datanode.currentTime = 0;
+					datanode.play();
 					break;
-					//enemy_killed_01.play();
 				}
 			}
 		}
 	}
+}
+function turnOffModal()
+{
+	document.getElementById("modal").style.display = "none";
+	modalFlag = false;
 }

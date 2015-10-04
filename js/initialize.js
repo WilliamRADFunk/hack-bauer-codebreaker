@@ -4,10 +4,13 @@ function init()
 {
 	maps.push(map1);
 	maps.push(map2);
+	maps.push(map3);
+	maps.push(map4);
+	maps.push(map5);
+	LEVEL_MAX = maps.length;
 	mapBlockedAreas[LEVEL] = [];
+	START_COORDS[LEVEL] = [];
 	scene = new THREE.Scene();
-
-	generateCameras();
 	
 	renderer = new THREE.WebGLRenderer();
 	renderer.setClearColor( 0x000000, 0 );
@@ -22,6 +25,8 @@ function init()
 	loadSounds();
 	
 	populateScene();
+
+	generateCameras();
 
 	spawnPlayer();
 
@@ -44,26 +49,16 @@ function init()
 	document.getElementById( "level-number" ).innerHTML = LEVEL + 1;
 	document.getElementById( "total-levels" ).innerHTML = LEVEL_MAX;
 
-	countdown.autoplay = true;
 	totalDisks = disks.length;
-	console.log(totalDisks);
 
 	render();
 }
 function loadSounds()
 {
-	music_level_01 = new Audio("assets/audio/music_level_01.mp3");
-	music_level_02 = new Audio("assets/audio/music_level_01.mp3");
-	music_level_03 = new Audio("assets/audio/music_level_01.mp3");
-	music_level_04 = new Audio("assets/audio/music_level_01.mp3");
-	music_level_05 = new Audio("assets/audio/music_level_01.mp3");
-	music_level_06 = new Audio("assets/audio/music_level_01.mp3");
-	music_level_07 = new Audio("assets/audio/music_level_01.mp3");
-	music_level_08 = new Audio("assets/audio/music_level_01.mp3");
-	music_level_09 = new Audio("assets/audio/music_level_01.mp3");
-	music_level_10 = new Audio("assets/audio/music_level_01.mp3");
+	music = new Audio("assets/audio/music.mp3");
+	music.loop = true;
 	countdown = new Audio("assets/audio/countdown.mp3");
-	datanode = new Audio("assets/audio/datanode.mp3");
+	datanode = new Audio("assets/audio/datanode2.mp3");
 	footsteps = new Audio("assets/audio/footsteps.mp3");
 }
 function spawnPlayer()
@@ -85,6 +80,9 @@ function turnOnLights()
 }
 function nextLevel()
 {
+	music.pause();
+	music.currentTime = 0;
+	countdown.currentTime = 0;
 	scene.remove(walls);
 	scene.remove(floor);
 	scene.remove(ceiling);
@@ -98,8 +96,10 @@ function nextLevel()
 	disksCollected = 0;
 	updateCounter = 0;
 	disks.length = 0;
+	modalFlag = true;
 	LEVEL++;
 	mapBlockedAreas[LEVEL] = [];
+	START_COORDS[LEVEL] = [];
 	populateScene();
 	spawnPlayer();
 	camera.position.set(START_COORDS[LEVEL][0], START_COORDS[LEVEL][1], 5);

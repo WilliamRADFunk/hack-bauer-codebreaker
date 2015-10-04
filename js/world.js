@@ -46,6 +46,72 @@ function addFloorCeiling()
 			scene.add( ceiling );
 			break;
 		}
+		case 2:
+		{
+			var floorTexture = THREE.ImageUtils.loadTexture('assets/textures/carpet-crosspattern-tan.jpg');
+			floorTexture.wrapS = THREE.RepeatWrapping;
+			floorTexture.wrapT = THREE.RepeatWrapping;
+			floorTexture.repeat.set( 10, 10 );
+			var floorGeometry = new THREE.BoxGeometry( SCENE_WIDTH, SCENE_HEIGHT, 1 );
+			var floorMaterial = new THREE.MeshBasicMaterial({map:floorTexture});
+			floor = new THREE.Mesh( floorGeometry, floorMaterial );
+			scene.add( floor );
+
+			var ceilingTexture = THREE.ImageUtils.loadTexture('assets/textures/wall-painted-grey.jpg');
+			ceilingTexture.wrapS = THREE.RepeatWrapping;
+			ceilingTexture.wrapT = THREE.RepeatWrapping;
+			ceilingTexture.repeat.set( 30, 30 );
+			var ceilingGeometry = new THREE.PlaneGeometry( SCENE_WIDTH, SCENE_HEIGHT, 1 );
+			var ceilingMaterial = new THREE.MeshBasicMaterial( {map:ceilingTexture, side: THREE.BackSide} );
+			ceiling = new THREE.Mesh( ceilingGeometry, ceilingMaterial );
+			ceiling.position.z = WALL_HEIGHT;
+			scene.add( ceiling );
+			break;
+		}
+		case 3:
+		{
+			var floorTexture = THREE.ImageUtils.loadTexture('assets/textures/tiles-bathroom-2.jpg');
+			floorTexture.wrapS = THREE.RepeatWrapping;
+			floorTexture.wrapT = THREE.RepeatWrapping;
+			floorTexture.repeat.set( 10, 10 );
+			var floorGeometry = new THREE.BoxGeometry( SCENE_WIDTH, SCENE_HEIGHT, 1 );
+			var floorMaterial = new THREE.MeshBasicMaterial({map:floorTexture});
+			floor = new THREE.Mesh( floorGeometry, floorMaterial );
+			scene.add( floor );
+
+			var ceilingTexture = THREE.ImageUtils.loadTexture('assets/textures/wall-painted-white.jpg');
+			ceilingTexture.wrapS = THREE.RepeatWrapping;
+			ceilingTexture.wrapT = THREE.RepeatWrapping;
+			ceilingTexture.repeat.set( 30, 30 );
+			var ceilingGeometry = new THREE.PlaneGeometry( SCENE_WIDTH, SCENE_HEIGHT, 1 );
+			var ceilingMaterial = new THREE.MeshBasicMaterial( {map:ceilingTexture, side: THREE.BackSide} );
+			ceiling = new THREE.Mesh( ceilingGeometry, ceilingMaterial );
+			ceiling.position.z = WALL_HEIGHT;
+			scene.add( ceiling );
+			break;
+		}
+		case 4:
+		{
+			var floorTexture = THREE.ImageUtils.loadTexture('assets/textures/tiles-bathroom-small.jpg');
+			floorTexture.wrapS = THREE.RepeatWrapping;
+			floorTexture.wrapT = THREE.RepeatWrapping;
+			floorTexture.repeat.set( 30, 30 );
+			var floorGeometry = new THREE.BoxGeometry( SCENE_WIDTH, SCENE_HEIGHT, 1 );
+			var floorMaterial = new THREE.MeshBasicMaterial({map:floorTexture});
+			floor = new THREE.Mesh( floorGeometry, floorMaterial );
+			scene.add( floor );
+
+			var ceilingTexture = THREE.ImageUtils.loadTexture('assets/textures/weave-brown.jpg');
+			ceilingTexture.wrapS = THREE.RepeatWrapping;
+			ceilingTexture.wrapT = THREE.RepeatWrapping;
+			ceilingTexture.repeat.set( 30, 30 );
+			var ceilingGeometry = new THREE.PlaneGeometry( SCENE_WIDTH, SCENE_HEIGHT, 1 );
+			var ceilingMaterial = new THREE.MeshBasicMaterial( {map:ceilingTexture, side: THREE.BackSide} );
+			ceiling = new THREE.Mesh( ceilingGeometry, ceilingMaterial );
+			ceiling.position.z = WALL_HEIGHT;
+			scene.add( ceiling );
+			break;
+		}
 	}
 }
 
@@ -81,16 +147,29 @@ function populateScene()
 	greyWallTexture_03.wrapT = THREE.RepeatWrapping;
 	greyWallTexture_03.repeat.set( 4, 4 );
 
+	var blueWallTexture_04 = THREE.ImageUtils.loadTexture('assets/textures/wall-painted-lightblue.jpg');
+	blueWallTexture_04.wrapS = THREE.RepeatWrapping;
+	blueWallTexture_04.wrapT = THREE.RepeatWrapping;
+	blueWallTexture_04.repeat.set( 4, 4 );
+
+	var blackTileTexture_05 = THREE.ImageUtils.loadTexture('assets/textures/tiles-bathroom-medium.jpg');
+	blackTileTexture_05.wrapS = THREE.RepeatWrapping;
+	blackTileTexture_05.wrapT = THREE.RepeatWrapping;
+	blackTileTexture_05.repeat.set( 4, 4 );
+
+	var tanWeaveTexture_05 = THREE.ImageUtils.loadTexture('assets/textures/weave-tan.jpg');
+	tanWeaveTexture_05.wrapS = THREE.RepeatWrapping;
+	tanWeaveTexture_05.wrapT = THREE.RepeatWrapping;
+	tanWeaveTexture_05.repeat.set( 4, 4 );
+
 	var floppyDiskTexture = THREE.ImageUtils.loadTexture('assets/textures/floppy-drive.png');
 	floppyDiskTexture.wrapS = THREE.RepeatWrapping;
 	floppyDiskTexture.wrapT = THREE.RepeatWrapping;
 	floppyDiskTexture.repeat.set( 1, 1 );
 
-	var tilePentagonTexture = THREE.ImageUtils.loadTexture('assets/textures/tile-pentagon.jpg');
-	tilePentagonTexture.wrapS = THREE.RepeatWrapping;
-	tilePentagonTexture.wrapT = THREE.RepeatWrapping;
-	tilePentagonTexture.repeat.set( 15, 1 );
+	var elevatorTexture = THREE.ImageUtils.loadTexture('assets/textures/elevator.jpg');
 
+	var computerTexture = THREE.ImageUtils.loadTexture('assets/textures/computer.jpg');
 
 	for(var i = 0; i < mapWidth; i++)
 	{
@@ -129,21 +208,57 @@ function populateScene()
 				mapBlockedAreas[LEVEL].push([a, b, c, d]);
 				walls.add(addAWall( UNIT_SIZE, UNIT_SIZE, WALL_HEIGHT, k, t, WALL_HEIGHT / 2, greyWallTexture_03 ));
 			}
+			else if(maps[LEVEL][i][j] == 4)
+			{
+				mapBlockedAreas[LEVEL].push([a, b, c, d]);
+				walls.add(addAWall( UNIT_SIZE, UNIT_SIZE, WALL_HEIGHT, k, t, WALL_HEIGHT / 2, blueWallTexture_04 ));
+			}
+			else if(maps[LEVEL][i][j] == 5)
+			{
+				mapBlockedAreas[LEVEL].push([a, b, c, d]);
+				walls.add(addAWall( UNIT_SIZE, UNIT_SIZE, WALL_HEIGHT, k, t, WALL_HEIGHT / 2, blackTileTexture_05 ));
+			}
+			else if(maps[LEVEL][i][j] == 6)
+			{
+				mapBlockedAreas[LEVEL].push([a, b, c, d]);
+				walls.add(addAWall( UNIT_SIZE, UNIT_SIZE, WALL_HEIGHT, k, t, WALL_HEIGHT / 2, tanWeaveTexture_05 ));
+			}
+			else if(maps[LEVEL][i][j] == 7)
+			{
+				var enemyGeometry = new THREE.PlaneGeometry( UNIT_SIZE, UNIT_SIZE, 1 );
+				var enemyMaterial = new THREE.MeshBasicMaterial( {color: 'red', side: THREE.DoubleSide} );
+				var enemy = new THREE.Mesh(enemyGeometry, enemyMaterial);
+				enemy.position.set(k, t, 0.6);
+				enemies.push(enemy);
+				scene.add(enemy);
+			}
 			else if(maps[LEVEL][i][j] == 8)
 			{
 				var startPointGeometry = new THREE.PlaneGeometry( UNIT_SIZE, UNIT_SIZE, 1 );
 				var startPointMaterial = new THREE.MeshBasicMaterial( {color: 'green', side: THREE.DoubleSide} );
 				startPoint = new THREE.Mesh(startPointGeometry, startPointMaterial);
 				startPoint.position.set(k, t, 0.6);
+				START_COORDS[LEVEL].push(k);
+				START_COORDS[LEVEL].push(t);
 				scene.add(startPoint);
 			}
 			else if(maps[LEVEL][i][j] == 9)
 			{
-				var elevatorGeometry = new THREE.PlaneGeometry( UNIT_SIZE, UNIT_SIZE, 1 );
-				var elevatorMaterial = new THREE.MeshBasicMaterial( {color: 'red', side: THREE.DoubleSide} );
+				var elevatorGeometry = new THREE.BoxGeometry( UNIT_SIZE, UNIT_SIZE, WALL_HEIGHT );
+				var elevatorMaterial = new THREE.MeshBasicMaterial( {map: elevatorTexture} );
+				elevatorMaterial.map.minFilter = THREE.NearestFilter;
 				elevator = new THREE.Mesh(elevatorGeometry, elevatorMaterial);
-				elevator.position.set(k, t, 0.6);
+				elevator.position.set(k, t, WALL_HEIGHT / 2);
 				scene.add(elevator);
+			}
+			else if(maps[LEVEL][i][j] == 10)
+			{
+				var computerGeometry = new THREE.BoxGeometry( UNIT_SIZE, UNIT_SIZE, WALL_HEIGHT );
+				var computerMaterial = new THREE.MeshBasicMaterial( {map: computerTexture} );
+				computerMaterial.map.minFilter = THREE.NearestFilter;
+				computer = new THREE.Mesh(computerGeometry, computerMaterial);
+				computer.position.set(k, t, WALL_HEIGHT / 2);
+				scene.add(computer);
 			}
 		}
 	}
