@@ -215,6 +215,7 @@ function populateScene()
 
 			if(maps[LEVEL][i][j] == 0)
 			{
+				availableMoves[LEVEL].push([k, t]);
 				var floppyDiskGeometry = new THREE.BoxGeometry(1, 1, 1);
 				var floppyDiskMaterial = new THREE.MeshBasicMaterial({map: floppyDiskTexture});
 				var floppy = new THREE.Mesh(floppyDiskGeometry, floppyDiskMaterial);
@@ -259,15 +260,14 @@ function populateScene()
 				var enemy1Geometry = new THREE.BoxGeometry( UNIT_SIZE / 2, UNIT_SIZE / 2, WALL_HEIGHT / 4, 1, 1, 1 );
 				var enemy1Mat = new THREE.MeshFaceMaterial( enemy1Materials );
 				enemy1 = new THREE.Mesh(enemy1Geometry, enemy1Mat);
-				
-				/*
-				var enemy1Geometry = new THREE.SphereGeometry(3);
-				var enemy1Material = new THREE.MeshBasicMaterial({map: enemy1Texture});
-				enemy1Material.map.minFilter = THREE.NearestFilter;
-				var enemy1 = new THREE.Mesh(enemy1Geometry, enemy1Material);
-				*/
 				enemy1.position.set(k, t, WALL_HEIGHT / 4);
-				enemies.push(enemy1);
+				enemies.push({	entity: enemy1,
+								state: "idle",
+								currentPosX: k,
+								currentPosY: t,
+								moveQueue: [k, t],
+								distFromPlayer: 10000
+							});
 				scene.add(enemy1);
 			}
 			else if(maps[LEVEL][i][j] == 8)

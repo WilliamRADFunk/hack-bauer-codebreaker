@@ -9,6 +9,7 @@ function init()
 	maps.push(map5);
 	LEVEL_MAX = maps.length;
 	mapBlockedAreas[LEVEL] = [];
+	availableMoves[LEVEL] = [];
 	START_COORDS[LEVEL] = [];
 	scene = new THREE.Scene();
 	
@@ -95,6 +96,11 @@ function nextLevel()
 		scene.remove(disks[i]);
 	}
 	disks.length = 0;
+	for(var j = 0; j < enemies.length; j++)
+	{
+		scene.remove(enemies[j].entity);
+	}
+	enemies.length = 0;
 	/* Dismantles previous level 					*/
 
 	/* Resets level-specific counters				*/
@@ -107,9 +113,11 @@ function nextLevel()
 	levelSpecificModal();
 	turnOnModal();
 	mapBlockedAreas[LEVEL] = [];
+	availableMoves[LEVEL] = [];
 	START_COORDS[LEVEL] = [];
 	populateScene();
 	spawnPlayer();
+	totalDisks += disks.length;
 	/* Builds next level 							*/
 
 	/* Positions camera in new starting location.	*/
@@ -155,6 +163,11 @@ function levelSpecificModal()
 		case 4:
 		{
 			document.getElementById( "modalMessage" ).innerHTML = "This is it, Hack!</br></br>You've made it to the most secure floor in the entire consulate. This is where they house their secret mainframe, and the control center for their W-U-Ds. If you can make it there, and crack their secret encryption, you could save millions.</br></br>We're all counting on you Hack. Good luck!";
+			break;
+		}
+		case 5:
+		{
+			document.getElementById( "modalMessage" ).innerHTML = "There's no encryption to crack just yet, Hack.</br></br>This was actually a training mission to see how many of the data nodes you could collect in the alloted time.</br></br>You managed to get " + disksCollectedOverall + " out of " + totalDisks + "</br></br>See if you can't do better next time.";
 			break;
 		}
 	}

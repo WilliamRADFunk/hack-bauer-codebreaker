@@ -56,6 +56,29 @@ function render()
 			}
 		}
 
+		if(updateCounter % 30 == 0)
+		{
+			for(var i = 0; i < enemies.length; i++)
+			{
+				if(enemies[i].state == "idle")
+				{
+					enemies[i].state = "seek";
+					//enemies[i].moveQueue = pathFind(enemies[i].currentPosX, enemies[i].currentPosY);
+				}
+			}
+		}
+
+		if(updateCounter % 31 == 0)
+		{
+			for(var j = 0; j < enemies.length; j++)
+			{
+				if(enemies[j].state == "seek" && enemies[j].moveQueue.length > 1)
+				{
+					//enemyMove(enemies[j]);
+				}
+			}
+		}
+
 		// Keeps track of the time, updating the HUD timer.
 		if(updateCounter % 59 == 0)
 		{
