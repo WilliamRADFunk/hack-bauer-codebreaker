@@ -126,6 +126,119 @@ function addAWall( x, y, z, xp, yp, zp, texture )
 	return wallmesh;
 }
 
+function getGuardMaterial(guard)
+{
+	var enemy1Materials;
+	switch(guard)
+	{
+		case 0:
+		{
+			enemy1Materials = 
+			[
+				new THREE.MeshBasicMaterial({
+					map: THREE.ImageUtils.loadTexture('assets/textures/enemy1_2.jpg')
+				}),
+				new THREE.MeshBasicMaterial({
+					map: THREE.ImageUtils.loadTexture('assets/textures/enemy1_3.jpg')
+				}),
+				new THREE.MeshBasicMaterial({
+					map: THREE.ImageUtils.loadTexture('assets/textures/enemy1_4.jpg')
+				}),
+				new THREE.MeshBasicMaterial({
+					map: THREE.ImageUtils.loadTexture('assets/textures/enemy1.jpg')
+				}),
+				new THREE.MeshBasicMaterial({
+					color: 'red'
+				}),
+				new THREE.MeshBasicMaterial({
+					color: 'black'
+				})
+			];
+			break;
+		}
+		case 1:
+		{
+			enemy1Materials = 
+			[
+				new THREE.MeshBasicMaterial({
+					map: THREE.ImageUtils.loadTexture('assets/textures/enemy2_2.jpg')
+				}),
+				new THREE.MeshBasicMaterial({
+					map: THREE.ImageUtils.loadTexture('assets/textures/enemy2_3.jpg')
+				}),
+				new THREE.MeshBasicMaterial({
+					map: THREE.ImageUtils.loadTexture('assets/textures/enemy2_4.jpg')
+				}),
+				new THREE.MeshBasicMaterial({
+					map: THREE.ImageUtils.loadTexture('assets/textures/enemy2.jpg')
+				}),
+				new THREE.MeshBasicMaterial({
+					color: 'red'
+				}),
+				new THREE.MeshBasicMaterial({
+					color: 'black'
+				})
+			];
+			break;
+		}
+		case 2:
+		{
+			enemy1Materials = 
+			[
+				new THREE.MeshBasicMaterial({
+					map: THREE.ImageUtils.loadTexture('assets/textures/enemy3_2.jpg')
+				}),
+				new THREE.MeshBasicMaterial({
+					map: THREE.ImageUtils.loadTexture('assets/textures/enemy3_3.jpg')
+				}),
+				new THREE.MeshBasicMaterial({
+					map: THREE.ImageUtils.loadTexture('assets/textures/enemy3_4.jpg')
+				}),
+				new THREE.MeshBasicMaterial({
+					map: THREE.ImageUtils.loadTexture('assets/textures/enemy3.jpg')
+				}),
+				new THREE.MeshBasicMaterial({
+					color: 'red'
+				}),
+				new THREE.MeshBasicMaterial({
+					color: 'black'
+				})
+			];
+			break;
+		}
+		default:
+		{
+			enemy1Materials = 
+			[
+				new THREE.MeshBasicMaterial({
+					map: THREE.ImageUtils.loadTexture('assets/textures/enemy4_2.jpg')
+				}),
+				new THREE.MeshBasicMaterial({
+					map: THREE.ImageUtils.loadTexture('assets/textures/enemy4_3.jpg')
+				}),
+				new THREE.MeshBasicMaterial({
+					map: THREE.ImageUtils.loadTexture('assets/textures/enemy4_4.jpg')
+				}),
+				new THREE.MeshBasicMaterial({
+					map: THREE.ImageUtils.loadTexture('assets/textures/enemy4.jpg')
+				}),
+				new THREE.MeshBasicMaterial({
+					color: 'red'
+				}),
+				new THREE.MeshBasicMaterial({
+					color: 'black'
+				})
+			];
+			break;
+		}
+	}
+	enemy1Materials[0].map.minFilter = THREE.NearestFilter;
+	enemy1Materials[1].map.minFilter = THREE.NearestFilter;
+	enemy1Materials[2].map.minFilter = THREE.NearestFilter;
+	enemy1Materials[3].map.minFilter = THREE.NearestFilter;
+	return enemy1Materials;
+}
+
 function populateScene()
 {
 	addFloorCeiling();
@@ -166,33 +279,6 @@ function populateScene()
 	floppyDiskTexture.wrapS = THREE.RepeatWrapping;
 	floppyDiskTexture.wrapT = THREE.RepeatWrapping;
 	floppyDiskTexture.repeat.set( 1, 1 );
-
-	var enemy1Materials = 
-	[
-		new THREE.MeshBasicMaterial({
-			map: THREE.ImageUtils.loadTexture('assets/textures/enemy1_2.jpg')
-		}),
-		new THREE.MeshBasicMaterial({
-			map: THREE.ImageUtils.loadTexture('assets/textures/enemy1_3.jpg')
-		}),
-		new THREE.MeshBasicMaterial({
-			map: THREE.ImageUtils.loadTexture('assets/textures/enemy1_4.jpg')
-		}),
-		new THREE.MeshBasicMaterial({
-			map: THREE.ImageUtils.loadTexture('assets/textures/enemy1.jpg')
-		}),
-		new THREE.MeshBasicMaterial({
-			color: 'red'
-		}),
-		new THREE.MeshBasicMaterial({
-			color: 'black'
-		})
-	];
-
-	enemy1Materials[0].map.minFilter = THREE.NearestFilter;
-	enemy1Materials[1].map.minFilter = THREE.NearestFilter;
-	enemy1Materials[2].map.minFilter = THREE.NearestFilter;
-	enemy1Materials[3].map.minFilter = THREE.NearestFilter;
 	
 	/*
 	var enemy1Texture = THREE.ImageUtils.loadTexture('assets/textures/enemy1.jpg');
@@ -256,17 +342,15 @@ function populateScene()
 			}
 			else if(maps[LEVEL][i][j] == 7)
 			{
-				
+				var randomGuardMaterial = getGuardMaterial(Math.floor( Math.random() * 4 ));
 				var enemy1Geometry = new THREE.BoxGeometry( UNIT_SIZE / 2, UNIT_SIZE / 2, WALL_HEIGHT / 4, 1, 1, 1 );
-				var enemy1Mat = new THREE.MeshFaceMaterial( enemy1Materials );
+				var enemy1Mat = new THREE.MeshFaceMaterial( randomGuardMaterial );
 				enemy1 = new THREE.Mesh(enemy1Geometry, enemy1Mat);
 				enemy1.position.set(k, t, WALL_HEIGHT / 4);
 				enemies.push({	entity: enemy1,
 								state: "idle",
-								currentPosX: k,
-								currentPosY: t,
-								moveQueue: [k, t],
-								distFromPlayer: 10000
+								strideRemaining: 0,
+								strideLength: ( (((LEVEL + 1) * 0.45) >= (STRIDE + 0.1)) ? (STRIDE + 0.1) : ((LEVEL + 1) * 0.45) )
 							});
 				scene.add(enemy1);
 			}

@@ -144,7 +144,7 @@ function levelSpecificModal()
 		// Level #2
 		case 1:
 		{
-			document.getElementById( "modalMessage" ).innerHTML = "Great job, Hack!</br></br>You've managed to outsmart the Umbakastanian security on the ground floor. Don't get cocky, though. As you get closer to the mainframe, security will get tighter.</br></br>I hope I don't have to remind you that if you get caught...you're on your own.";
+			document.getElementById( "modalMessage" ).innerHTML = "Great job, Hack!</br></br>You've managed to outsmart the Umbakastanian security on the ground floor. Don't get cocky, though. As you get closer to the mainframe, security will get tighter...and faster.</br></br>I hope I don't have to remind you that if you get caught...you're on your own.";
 			break;
 		}
 		// Level #3

@@ -267,6 +267,15 @@ function keyPressed()
 }
 function turnOffModal()
 {
+	if(LEVEL > 4)
+	{
+		if( (player.position.x >= computer.position.x - 5) && (player.position.x <= computer.position.x + 5) &&
+			(player.position.y >= computer.position.y - 5) && (player.position.y <= computer.position.y + 5) )
+		{
+			window.location.reload();
+		}
+	}
+	
 	if(updateCounter >= 91)
 	document.getElementById("modal").style.display = "none";
 	modalFlag = false;
