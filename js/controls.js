@@ -275,6 +275,10 @@ function turnOffModal()
 			window.location.reload();
 		}
 	}
+	else if(gameFlag == false)
+	{
+		window.location.reload();
+	}
 	
 	if(updateCounter >= 91)
 	document.getElementById("modal").style.display = "none";

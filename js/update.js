@@ -76,6 +76,8 @@ function render()
 				{
 					document.getElementById( 'minutes' ).innerHTML = "YOU";
 					document.getElementById( 'seconds' ).innerHTML = "LOSE";
+					document.getElementById( "modalMessage" ).innerHTML = "Oh, no!!!</br></br>You've been captured by the Umbakastanian Security Forces. Our state department is rushing to deny your very existence. I'm afraid nothing but endless torture and an inevitable execution awaits you, Hack.</br></br>Meanwhile, W-U-Ds have gone off in every major capitol around the world. Civilization as we've come to know it is collapsing.</br></br>You've failed the world, Hack. You've failed humanity. Good job ::heavy sarcasm::";
+					turnOnModal();
 					music.pause();
 					gameFlag = false;
 				}
