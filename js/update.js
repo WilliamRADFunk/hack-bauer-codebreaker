@@ -36,7 +36,10 @@ function render()
 		{
 			document.getElementById( 'disks-collected-amount' ).innerHTML = disksCollectedOverall;
 			document.getElementById( 'disks-level-amount' ).innerHTML = disksCollected;
-
+		}
+		// Updates enemy movement
+		if(updateCounter % 5 == 0)
+		{
 			for(var i = 0; i < enemies.length; i++)
 			{
 				if( enemies[i].state == "seek")
@@ -46,33 +49,11 @@ function render()
 
 				var dx;
 				var dy;
-				if(enemies[i].entity.position.x < 0 && player.position.x > 0)
-				{
-					dx = Math.abs(enemies[i].entity.position.x) + player.position.x;
-				}
-				else if(player.position.x < 0 && enemies[i].entity.position.x > 0)
-				{
-					dx = Math.abs(player.position.x) + enemies[i].entity.position.x;
-				}
-				else
-				{
-					dx = Math.abs(player.position.x - enemies[i].entity.position.x);
-				}
+				
+				dx = axisDiff(enemies[i], "x");
+				dy = axisDiff(enemies[i], "y");
 
-				if(enemies[i].entity.position.y < 0 && player.position.y > 0)
-				{
-					dy = Math.abs(enemies[i].entity.position.y) + player.position.y;
-				}
-				else if(player.position.y < 0 && enemies[i].entity.position.y > 0)
-				{
-					dy = Math.abs(player.position.y) + enemies[i].entity.position.y;
-				}
-				else
-				{
-					dy = Math.abs(player.position.y - enemies[i].entity.position.y);
-				}
-
-				if(dx < 2 && dy < 2)
+				if(dx < 4.5 && dy < 4.5)
 				{
 					document.getElementById( 'minutes' ).innerHTML = "YOU";
 					document.getElementById( 'seconds' ).innerHTML = "LOSE";
@@ -82,7 +63,6 @@ function render()
 					gameFlag = false;
 				}
 			}
-
 		}
 
 		// Checks to see if player has reached an elevator

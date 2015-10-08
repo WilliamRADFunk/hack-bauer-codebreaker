@@ -6,7 +6,7 @@ function isPlayerClose(enemy)
 	var ySqr = (yDiff * yDiff);
 	var Difference = Math.sqrt( xSqr + ySqr );
 
-	if(Difference <= 100)
+	if(Difference <= 150)
 	{
 		return true;
 	}
@@ -25,45 +25,127 @@ function chase(enemy)
 	{
 		if(playerY < enemyY)
 		{
-			enemy.entity.position.set( (enemyX - enemy.strideLength), (enemyY - enemy.strideLength), WALL_HEIGHT / 4);
+			if(axisDiff(enemy, "x") <= enemy.strideLength)
+			{
+				enemy.entity.translateOnAxis( new THREE.Vector3(0, -1, 0), enemy.strideLength );
+			}
+			else if(axisDiff(enemy, "y") <= enemy.strideLength)
+			{
+				enemy.entity.translateOnAxis( new THREE.Vector3(-1, 0, 0), enemy.strideLength );
+			}
+			else
+			{
+				enemy.entity.translateOnAxis( new THREE.Vector3(-1, -1, 0), enemy.strideLength );
+			}
 		}
 		else if(playerY > enemyY)
 		{
-			enemy.entity.position.set( (enemyX - enemy.strideLength), (enemyY + enemy.strideLength), WALL_HEIGHT / 4);
+			if(axisDiff(enemy, "x") <= enemy.strideLength)
+			{
+				enemy.entity.translateOnAxis( new THREE.Vector3(0, 1, 0), enemy.strideLength );
+			}
+			else if(axisDiff(enemy, "y") <= enemy.strideLength)
+			{
+				enemy.entity.translateOnAxis( new THREE.Vector3(-1, 0, 0), enemy.strideLength );
+			}
+			else
+			{
+				enemy.entity.translateOnAxis( new THREE.Vector3(-1, 1, 0), enemy.strideLength );
+			}
 		}
 		else
 		{
-			enemy.entity.position.set( (enemyX - enemy.strideLength), enemyY, WALL_HEIGHT / 4);
+			enemy.entity.translateOnAxis( new THREE.Vector3(1, 0, 0), enemy.strideLength );
 		}
 	}
 	else if(playerX > enemyX)
 	{
 		if(playerY < enemyY)
 		{
-			enemy.entity.position.set( (enemyX + enemy.strideLength), (enemyY - enemy.strideLength), WALL_HEIGHT / 4);
+			if(axisDiff(enemy, "x") <= enemy.strideLength)
+			{
+				enemy.entity.translateOnAxis( new THREE.Vector3(0, -1, 0), enemy.strideLength );
+			}
+			else if(axisDiff(enemy, "y") <= enemy.strideLength)
+			{
+				enemy.entity.translateOnAxis( new THREE.Vector3(1, 0, 0), enemy.strideLength );
+			}
+			else
+			{
+				enemy.entity.translateOnAxis( new THREE.Vector3(1, -1, 0), enemy.strideLength );
+			}
 		}
 		else if(playerY > enemyY)
 		{
-			enemy.entity.position.set( (enemyX + enemy.strideLength), (enemyY + enemy.strideLength), WALL_HEIGHT / 4);
+			if(axisDiff(enemy, "x") <= enemy.strideLength)
+			{
+				enemy.entity.translateOnAxis( new THREE.Vector3(0, 1, 0), enemy.strideLength );
+			}
+			else if(axisDiff(enemy, "y") <= enemy.strideLength)
+			{
+				enemy.entity.translateOnAxis( new THREE.Vector3(1, 0, 0), enemy.strideLength );
+			}
+			else
+			{
+				enemy.entity.translateOnAxis( new THREE.Vector3(1, 1, 0), enemy.strideLength );
+			}
 		}
 		else
 		{
-			enemy.entity.position.set( (enemyX + enemy.strideLength), enemyY, WALL_HEIGHT / 4);
+			enemy.entity.translateOnAxis( new THREE.Vector3(1, 0, 0), enemy.strideLength );
 		}
 	}
 	else
 	{
 		if(playerY < enemyY)
 		{
-			enemy.entity.position.set( enemyX, (enemyY - enemy.strideLength), WALL_HEIGHT / 4);
+			enemy.entity.translateOnAxis( new THREE.Vector3(0, -1, 0), enemy.strideLength );
 		}
 		else if(playerY > enemyY)
 		{
-			enemy.entity.position.set( enemyX, (enemyY + enemy.strideLength), WALL_HEIGHT / 4);
+			enemy.entity.translateOnAxis( new THREE.Vector3(0, 1, 0), enemy.strideLength );
 		}
 		else
 		{
-			enemy.entity.position.set( enemyX, enemyY, WALL_HEIGHT / 4);
+			enemy.entity.translateOnAxis( new THREE.Vector3(0, 0, 0), enemy.strideLength );
 		}
+	}
+}
+
+function axisDiff(enemy, axis)
+{
+	if(axis === "x")
+	{
+		if(enemy.entity.position.x < 0 && player.position.x > 0)
+		{
+			return (Math.abs(enemy.entity.position.x) + player.position.x);
+		}
+		else if(player.position.x < 0 && enemy.entity.position.x > 0)
+		{
+			return (Math.abs(player.position.x) + enemy.entity.position.x);
+		}
+		else
+		{
+			return (Math.abs(player.position.x - enemy.entity.position.x));
+		}
+	}
+	else if(axis === "y")
+	{
+		if(enemy.entity.position.y < 0 && player.position.y > 0)
+		{
+			return (Math.abs(enemy.entity.position.y) + player.position.y);
+		}
+		else if(player.position.y < 0 && enemy.entity.position.y > 0)
+		{
+			return (Math.abs(player.position.y) + enemy.entity.position.y);
+		}
+		else
+		{
+			return (Math.abs(player.position.y - enemy.entity.position.y));
+		}
+	}
+	else
+	{
+		return 0;
 	}
 }
