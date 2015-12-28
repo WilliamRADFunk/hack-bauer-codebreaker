@@ -22,46 +22,111 @@ function moveCamera( x_old, y_old, xd, yd )
 {
 	var x = camera.position.x + STRIDE * Math.sin( camera.rotation.y ) * xd;
 	var y = camera.position.y + STRIDE * Math.cos( camera.rotation.y ) * yd;
-	
+	var clear = true;
 	// Looking for all collisions, data nodes, elevator blocks, and anything interactive.
 	for(var i = 0; i < mapBlockedAreas[LEVEL].length; i++)
 	{
 		// Player is attempting to enter an occupied square
 		if(x >= mapBlockedAreas[LEVEL][i][0] && x <= mapBlockedAreas[LEVEL][i][1] && y >= mapBlockedAreas[LEVEL][i][2] && y <= mapBlockedAreas[LEVEL][i][3])
 		{
-			// Checking combination of old x-coordinate with new y-coordinate.
-			if(x_old < mapBlockedAreas[LEVEL][i][0] || x_old > mapBlockedAreas[LEVEL][i][1])
+			clear = false;
+			for(var j = 0, k = 0; j < 1, k > -1; j+=0.1, k-=0.1)
 			{
-				// Combination is valid, move into new coordinates.
-				if(y < mapBlockedAreas[LEVEL][i][2] || y > mapBlockedAreas[LEVEL][i][3])
+				var x_test = camera.position.x + STRIDE * Math.sin( camera.rotation.y + j ) * xd;
+				var y_test = camera.position.y + STRIDE * Math.cos( camera.rotation.y + j ) * yd;
+				if(x_test >= mapBlockedAreas[LEVEL][i][0] && x_test <= mapBlockedAreas[LEVEL][i][1] && y_test >= mapBlockedAreas[LEVEL][i][2] && y_test <= mapBlockedAreas[LEVEL][i][3])
 				{
-					camera.position.x = x_old;
-					camera.position.y = y;
-					return "Collision";
+					var x_test = camera.position.x + STRIDE * Math.sin( camera.rotation.y + k ) * xd;
+					var y_test = camera.position.y + STRIDE * Math.cos( camera.rotation.y + k ) * yd;
+					if(x_test >= mapBlockedAreas[LEVEL][i][0] && x_test <= mapBlockedAreas[LEVEL][i][1] && y_test >= mapBlockedAreas[LEVEL][i][2] && y_test <= mapBlockedAreas[LEVEL][i][3])
+					{
+						var x_test = camera.position.x + STRIDE * Math.sin( camera.rotation.y + k ) * xd;
+						var y_test = camera.position.y + STRIDE * Math.cos( camera.rotation.y + j ) * yd;
+						if(x_test >= mapBlockedAreas[LEVEL][i][0] && x_test <= mapBlockedAreas[LEVEL][i][1] && y_test >= mapBlockedAreas[LEVEL][i][2] && y_test <= mapBlockedAreas[LEVEL][i][3])
+						{
+							var x_test = camera.position.x + STRIDE * Math.sin( camera.rotation.y + j ) * xd;
+							var y_test = camera.position.y + STRIDE * Math.cos( camera.rotation.y + k ) * yd;
+							if(x_test >= mapBlockedAreas[LEVEL][i][0] && x_test <= mapBlockedAreas[LEVEL][i][1] && y_test >= mapBlockedAreas[LEVEL][i][2] && y_test <= mapBlockedAreas[LEVEL][i][3])
+							{
+								//This possibility was a bust.
+							}
+							else
+							{
+								var clear = true;
+								for(var m = 0; m < mapBlockedAreas[LEVEL].length; m++)
+								{
+									if(x_test >= mapBlockedAreas[LEVEL][m][0] && x_test <= mapBlockedAreas[LEVEL][m][1] && y_test >= mapBlockedAreas[LEVEL][m][2] && y_test <= mapBlockedAreas[LEVEL][m][3])
+									{
+										clear = false;
+									}
+								}
+								if(clear)
+								{
+									camera.position.x = x_test;
+									camera.position.y = y_test;
+									return "collision";
+								}
+							}
+						}
+						else
+						{
+							var clear = true;
+							for(var m = 0; m < mapBlockedAreas[LEVEL].length; m++)
+							{
+								if(x_test >= mapBlockedAreas[LEVEL][m][0] && x_test <= mapBlockedAreas[LEVEL][m][1] && y_test >= mapBlockedAreas[LEVEL][m][2] && y_test <= mapBlockedAreas[LEVEL][m][3])
+								{
+									clear = false;
+								}
+							}
+							if(clear)
+							{
+								camera.position.x = x_test;
+								camera.position.y = y_test;
+								return "collision";
+							}
+						}
+					}
+					else
+					{
+						var clear = true;
+						for(var m = 0; m < mapBlockedAreas[LEVEL].length; m++)
+						{
+							if(x_test >= mapBlockedAreas[LEVEL][m][0] && x_test <= mapBlockedAreas[LEVEL][m][1] && y_test >= mapBlockedAreas[LEVEL][m][2] && y_test <= mapBlockedAreas[LEVEL][m][3])
+							{
+								clear = false;
+							}
+						}
+						if(clear)
+						{
+							camera.position.x = x_test;
+							camera.position.y = y_test;
+							return "collision";
+						}
+					}
 				}
-				// Combination not valid, keep old coordinates
 				else
 				{
-					return "Collision";
-				}
-			}
-			// Checking combination of old y-coordinate with new x-coordinate.
-			else if(y_old < mapBlockedAreas[LEVEL][i][2] || y_old > mapBlockedAreas[LEVEL][i][3])
-			{
-				// Combination is valid, move into new coordinates.
-				if(x < mapBlockedAreas[LEVEL][i][0] || x > mapBlockedAreas[LEVEL][i][1])
-				{
-					camera.position.x = x;
-					camera.position.y = y_old;
-					return "Collision";
-				}
-				// Combination not valid, keep old coordinates
-				else
-				{
-					return "Collision";
+					var clear = true;
+					for(var m = 0; m < mapBlockedAreas[LEVEL].length; m++)
+					{
+						if(x_test >= mapBlockedAreas[LEVEL][m][0] && x_test <= mapBlockedAreas[LEVEL][m][1] && y_test >= mapBlockedAreas[LEVEL][m][2] && y_test <= mapBlockedAreas[LEVEL][m][3])
+						{
+							clear = false;
+						}
+					}
+					if(clear)
+					{
+						camera.position.x = x_test;
+						camera.position.y = y_test;
+						return "collision";
+					}
 				}
 			}
 		}
+	}
+	if(!clear)
+	{
+		return "collision";
 	}
 
 	// No obstructions, move into desired space.
