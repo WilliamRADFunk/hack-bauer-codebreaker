@@ -125,3 +125,19 @@ function render()
 		renderer2.setViewport( 0, 0, 150, 150);
 		renderer2.render( scene, miniMapCamera );
 }
+function makeGuess()
+{
+	var selectionElement = document.getElementById( 'guesses' );
+	var selection = selectionElement.options[selectionElement.selectedIndex].value;
+	console.log("You chose: " + selection);
+	if(selection === pword)
+	{
+		console.log("You chose right!");
+		levelSpecificModal(6);
+	}
+	else
+	{
+		console.log("You chose wrong!");
+		levelSpecificModal(7);
+	}
+}

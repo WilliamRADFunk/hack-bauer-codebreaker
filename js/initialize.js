@@ -137,8 +137,10 @@ function nextLevel()
 }
 // Story elements presented in modal form at start of each level
 // First level already in HTML.
-function levelSpecificModal()
+function levelSpecificModal(lev)
 {
+	LEVEL = (lev == null || lev == undefined) ? LEVEL : lev;
+	var modal = document.getElementById( "modal" );
 	switch(LEVEL)
 	{
 		// Level #2
@@ -167,8 +169,79 @@ function levelSpecificModal()
 		}
 		case 5:
 		{
-			document.getElementById( "modalMessage" ).innerHTML = "There's no encryption to crack just yet, Hack.</br></br>This was actually a training mission to see how many of the data nodes you could collect in the alloted time.</br></br>You managed to get " + disksCollectedOverall + " out of " + totalDisks + "</br></br>See if you can't do better next time.";
+			var percentComplete = disksCollectedOverall / totalDisks;
+			var bonusLetters = Math.round(8 * percentComplete);
+			console.log(bonusLetters);
+			pwordDisplay = "";
+			for(var i = 0; i < 8; i++)
+			{
+				if(Math.round(Math.random()) && bonusLetters > 0)
+				{
+					pwordDisplay += pword[i] + " ";
+					bonusLetters--;
+				}
+				else pwordDisplay += "_ ";
+			}
+			//document.getElementById( "modalMessage" ).innerHTML = "There's no encryption to crack just yet, Hack.</br></br>This was actually a training mission to see how many of the data nodes you could collect in the alloted time.</br></br>You managed to get " + disksCollectedOverall + " out of " + totalDisks + "</br></br>See if you can't do better next time.";
+			document.getElementById( "modal" ).innerHTML = 
+			"<div id='modalMessage' style='margin-bottom: 20px;'>This is it, Hack. You've made it to the super-secret terminal. You managed to collect <span style='color: red; font-weight: strong;'>" + disksCollectedOverall + "</span> out of <span style='color: red; font-weight: strong;'>" + totalDisks + "</span> pieces of intel. That will buy you some clues in deciphering the encryption.</br></br>It seems the Umbakistanians are using a series of randomly generated words as their rotating pass code. You only get one chance, Hack. Don't waste it.</div>";
+			document.getElementById( "modal" ).innerHTML += 
+			"<div id='question' style='margin-bottom: 20px; text-align: center;'>" + pwordDisplay + "</div>";
+			document.getElementById( "modal" ).innerHTML += listbox + "<button onclick='makeGuess()'>CONTINUE</button>";
+			break;
+		}
+		case 6:
+		{
+			document.getElementById( "modal" ).innerHTML = "<div id='modalMessage' style='margin-bottom: 20px;'>You did it, Hack!!!</br></br>You cracked into their mainframe, downloaded the locations to all of the WUDs, and collected evidence against the Umbakastanians.</br></br>The world is now a safer place because of you, Hack!</div>";
+			document.getElementById( "modal" ).innerHTML += "<button onclick='turnOffModal()'>REPLAY</button>";
+			break;
+		}
+		case 7:
+		{
+			document.getElementById( "modal" ).innerHTML = "<div id='modalMessage' style='margin-bottom: 20px;'>Wrong, Hack!!!</br></br>You triggered their mainframe's security, and now their system is under automatic lockdown. We'll never get in now.</br></br>WUDs are going off in every major city around the world as we speak. You've failed us all, Hack. You've failed us all!</div>";
+			document.getElementById( "modal" ).innerHTML += "<button onclick='turnOffModal()'>REPLAY</button>";
 			break;
 		}
 	}
+}
+function LoadFile()
+{
+	var oFrame = document.getElementById("frmFile");
+	var rawContent = oFrame.contentWindow.document.body.childNodes[0].innerHTML;
+	while (rawContent.indexOf("\r") >= 0) rawContent = rawContent.replace("\r", "");
+	var arrLines = rawContent.split("\n");
+
+	var words = [];
+	for(var i = 0; i < arrLines.length; i++) {
+		if(arrLines[i].length == 8) words.push(arrLines[i]);
+	}
+
+	var wordIndex = Math.floor(Math.random() * 7367);
+	wordIndex = (wordIndex > words.length) ? (words.length - 1) : wordIndex;
+	pword = words[wordIndex];
+	console.log(pword); //DEBUG
+	
+	var pwordIndex = Math.floor(Math.random() * 8);
+	console.log(pwordIndex);
+
+	listbox = "<select id='guesses' style='margin-left: 25%; width: 50%;'>";
+	for(var j = 0; j < 10; j++) {
+		if(j === pwordIndex)
+		{
+			possiblePwords.push(pword);
+			listbox += "<option value='" + pword + "'>" + pword + "</option>";
+		}
+		else
+		{
+			var curChoice = words[Math.floor(Math.random() * 7366)];
+			if(possiblePwords.indexOf(curChoice) === -1 && curChoice.charAt(0) === pword.charAt(0))
+			{
+				possiblePwords.push(curChoice);
+				console.log(curChoice);
+				listbox += "<option value='" + curChoice + "'>" + curChoice + "</option>";
+			}
+			else j--;
+		}
+	}
+	listbox += "</select>";
 }

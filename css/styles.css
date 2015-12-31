@@ -122,25 +122,24 @@ h4
 #modal
 {
 	background-color: #CCCCCC;
+	max-height: 65%;
 	min-height: 50%;
-	left: 35%;
+	left: 20%;
 	position: absolute;
 	top: 20%;
-	width: 30%;
+	width: 64%;
 }
 #modal button
 {
-	bottom: 5%;
-	left: 40%;
-	position: absolute;
-	width: 20%
+	display: block;
+	margin: 20px auto;
+	width: 90px;
 }
 #modalMessage
 {
 	font-size: 14px;
 	line-height: 16px;
-	margin-bottom: 25px;
-	padding: 5% 10%;
+	padding: 5% 10% 0% 10%;
 }
 .left
 {

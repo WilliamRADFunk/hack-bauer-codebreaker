@@ -42,6 +42,12 @@ var modalFlag = false;
 var gameFlag = true;
 /* Counters                   */
 
+/* End Game 				  */
+var pword = "";
+var listbox = "";
+var possiblePwords = [];
+/* End Game 				  */
+
 /* Scene Generation Variables */
 var map1 = [// 01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19
 		   [1, 1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1], // 00
