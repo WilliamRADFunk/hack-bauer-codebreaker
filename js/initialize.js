@@ -169,9 +169,10 @@ function levelSpecificModal(lev)
 		}
 		case 5:
 		{
-			var percentComplete = disksCollectedOverall / totalDisks;
+			var percentComplete = (disksCollectedOverall - 150) / totalDisks;
 			var bonusLetters = Math.round(8 * percentComplete);
-			console.log(bonusLetters);
+			bonusLetters = (bonusLetters <= 0) ? 1 : bonusLetters;
+
 			pwordDisplay = "";
 			for(var i = 0; i < 8; i++)
 			{
@@ -221,11 +222,14 @@ function LoadFile()
 	pword = words[wordIndex];
 	console.log(pword); //DEBUG
 	
-	var pwordIndex = Math.floor(Math.random() * 8);
+	var pwordIndex = Math.floor(Math.random() * 8) + 1;
 	console.log(pwordIndex);
 
+	var infiniteLoopBreakPoint = 0;
 	listbox = "<select id='guesses' style='margin-left: 25%; width: 50%;'>";
-	for(var j = 0; j < 10; j++) {
+	for(var j = 0; j < 10 && infiniteLoopBreakPoint <= 7000; j++)
+	{
+		infiniteLoopBreakPoint++; // In case there aren't ten words that match the below criteria.
 		if(j === pwordIndex)
 		{
 			possiblePwords.push(pword);
@@ -234,13 +238,36 @@ function LoadFile()
 		else
 		{
 			var curChoice = words[Math.floor(Math.random() * 7366)];
-			if(possiblePwords.indexOf(curChoice) === -1 && curChoice.charAt(0) === pword.charAt(0))
+			if(	possiblePwords.indexOf(curChoice) === -1 && curChoice.charAt(0) === pword.charAt(0) && curChoice.charAt(7) === pword.charAt(7) )
+			{
+				possiblePwords.push(curChoice);
+				console.log(curChoice);
+				listbox += "<option value='" + curChoice + "'>" + curChoice + "</option>";
+			}
+			else if(possiblePwords.indexOf(curChoice) === -1 && curChoice.charAt(0) === pword.charAt(0) && curChoice.charAt(3) === pword.charAt(3) )
+			{
+				possiblePwords.push(curChoice);
+				console.log(curChoice);
+				listbox += "<option value='" + curChoice + "'>" + curChoice + "</option>";
+			}
+			else if(possiblePwords.indexOf(curChoice) === -1 && curChoice.charAt(0) === pword.charAt(0) && curChoice.charAt(5) === pword.charAt(5) )
+			{
+				possiblePwords.push(curChoice);
+				console.log(curChoice);
+				listbox += "<option value='" + curChoice + "'>" + curChoice + "</option>";
+			}
+			else if(possiblePwords.indexOf(curChoice) === -1 && curChoice.charAt(0) === pword.charAt(0) && curChoice.charAt(1) === pword.charAt(1) )
 			{
 				possiblePwords.push(curChoice);
 				console.log(curChoice);
 				listbox += "<option value='" + curChoice + "'>" + curChoice + "</option>";
 			}
 			else j--;
+		}
+		if(infiniteLoopBreakPoint == 7000 && j < pwordIndex)
+		{
+			possiblePwords.push(pword);
+			listbox += "<option value='" + pword + "'>" + pword + "</option>";
 		}
 	}
 	listbox += "</select>";
